@@ -10,9 +10,9 @@ export default function Authenticated({ auth, header, children }) {
         useState(false);
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen">
             {/* Barra superior */}
-            <nav className="min-w-full   bg-indigo-400 border-b border-gray-100 ">
+            <nav className="min-w-full   bg-sky-600 ">
                 <div className="  w-full px-4 sm:px-6 ">
                     <div className="flex justify-between h-16">
                         <div className="shrink-0 flex items-center">
@@ -165,7 +165,7 @@ export default function Authenticated({ auth, header, children }) {
 
             <div className="flex flex-grow overflow-hidden">
                 {/* Menu lateral*/}
-                <div className="hidden sm:flex flex-col items-center w-45 flex-shrink-0 overflow-y-auto text-gray-700 bg-white ">
+                <div className="hidden sm:flex flex-col items-center w-45 flex-shrink-0 overflow-y-auto text-gray-700 bg-gray-200">
                     {/* <a className="flex items-center w-full px-3 mt-3" href="#">
                         <svg
                             className="w-8 h-8 fill-current"
