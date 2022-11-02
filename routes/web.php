@@ -7,17 +7,22 @@ use Inertia\Inertia;
 
 
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+}); */
 
+/* Route::redirect('/here', '/there'); */
+
+ Route::get('/', function () {
+    return redirect('/login');
+}); 
 Route::resource('personal', PersonalController::class)
-    ->only(['index','store','update','destroy'])
+    ->only(['index','store','update','create','update','destroy'])
     ->middleware(['auth']);
 
 Route::get('/dashboard', function () {

@@ -16,11 +16,18 @@ class PersonalController extends Controller
     public function index()
     {
        return Inertia::render('Personal/Index',[
+        'personal' => Personal::all('nombre','apellido','rfc')->toArray()
+        /* 'personal' => Personal::all()->get('nombre','apellidio','rfc') */
+       /*  'personal' => Personal::all()->toJson() */
 
        ]);
 
     }
 
+    public function create()
+    {
+        return Inertia::render('Personal/Create');
+    }
    
 
     /**

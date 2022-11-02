@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Personal extends Model
 {
     use HasFactory;
-    //protected $table = "personal";
+    protected $table = "personal";
 
     protected $fillable = [
         'nombre',
         'apellido',
         'rfc',
     ];
+
+    protected $hidden = ['id'];
 }
