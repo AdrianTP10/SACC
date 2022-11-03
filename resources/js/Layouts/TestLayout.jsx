@@ -225,8 +225,8 @@ export default function Authenticated({ auth, header, children }) {
                             </NavLink>
 
                             <NavLink
-                                href={route("personal.index")}
-                                active={route().current("personal.index")}
+                                href={route("actividad.index")}
+                                active={route().current("actividad.index")}
                             >
                                 <svg
                                     className="w-6 h-6 stroke-current"
@@ -243,7 +243,7 @@ export default function Authenticated({ auth, header, children }) {
                                     />
                                 </svg>
                                 <span className="ml-2 text-base font-medium">
-                                    Alumnos
+                                    Actividades
                                 </span>
                             </NavLink>
 
@@ -269,7 +269,32 @@ export default function Authenticated({ auth, header, children }) {
                                     Solicitudes
                                 </span>
                             </NavLink>
+
+                            <NavLink
+                                href={route("alumno.index")}
+                                active={route().current("alumno.index")}
+                            >
+                                <svg
+                                    className="w-6 h-6 stroke-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                                    />
+                                </svg>
+                                <span className="ml-2 text-base font-medium">
+                                    Alumnos
+                                </span>
+                            </NavLink>
                         </div>
+
+
                         <div className="flex flex-col items-center w-full mt-2 border-t border-gray-300">
                             <a
                                 className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-300"
@@ -290,7 +315,7 @@ export default function Authenticated({ auth, header, children }) {
                                     />
                                 </svg>
                                 <span className="ml-2 text-base font-medium">
-                                    Products
+                                    Periodos
                                 </span>
                             </a>
                             <a

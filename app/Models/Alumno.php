@@ -4,17 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Estatus;
 
-class Actividad extends Model
+class Alumno extends Model
 {
     use HasFactory;
 
-    protected $table = "actividades";
+    protected $table = "alumnos";
 
     protected $fillable = [
-        'descripcion',
-        'valor_curricular',
+        'nombre',
+        'apellido',
+        'no_control',
+        'semestre',
+        'carrera_id',
         'estatus_id',
     ];
 
@@ -23,5 +25,9 @@ class Actividad extends Model
 
     public function estatus(){
         return $this->belongsTo(Estatus::class, 'estatus_id');
+    }
+
+    public function carrera(){
+        return $this->belongsTo(Carrera::class, 'carrera_id');
     }
 }

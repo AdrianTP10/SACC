@@ -1,30 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Actividad;
+use App\Models\Alumno;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ActividadController extends Controller
+class AlumnoController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return Inertia::render('Actividad/Index',[
-            'actividades' => Actividad::all()->map(function ($actividad) {
-
+        return Inertia::render('Alumno/Index',[
+            'alumnos' => Alumno::all()->map(function ($alumno) {
+    
                 return [
-                    'descripcion' => $actividad->descripcion,
-                    'valor_curricular' => $actividad->valor_curricular,
-                    'estatus' => $actividad->estatus->descripcion,
+                    'nombre' => $alumno->nombre,
+                    'apellido' => $alumno->apellido,
+                    'no_control' => $alumno->no_control,
+                    'semestre' => $alumno->semestre,
+                    'carrera' => $alumno->carrera->nombre,
+                    'estatus' => $alumno->estatus->descripcion,
                 ];
             }),
-            //'actividades' => Actividad::all('descripcion','valor_curricular','estatus_id')->toArray()
+            //'actividades' => Alumno::all('descripcion','valor_curricular','estatus_id')->toArray()
         ]);
     }
 
@@ -52,10 +54,10 @@ class ActividadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Actividad  $actividad
+     * @param  \App\Models\Alumno  $alumno
      * @return \Illuminate\Http\Response
      */
-    public function edit(Actividad $actividad)
+    public function edit(Alumno $alumno)
     {
         //
     }
@@ -64,10 +66,10 @@ class ActividadController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Actividad  $actividad
+     * @param  \App\Models\Alumno  $alumno
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Actividad $actividad)
+    public function update(Request $request, Alumno $alumno)
     {
         //
     }
@@ -75,10 +77,10 @@ class ActividadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Actividad  $actividad
+     * @param  \App\Models\Alumno  $alumno
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Actividad $actividad)
+    public function destroy(Alumno $alumno)
     {
         //
     }

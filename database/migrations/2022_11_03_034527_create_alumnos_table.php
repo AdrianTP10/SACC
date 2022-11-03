@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('personal', function (Blueprint $table) {
+        Schema::create('alumnos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('rfc',13);
+            $table->string('no_control',8);
+            $table->integer('semestre');
+            $table->foreignId('carrera_id')->references('id')->on('carreras');
+            $table->foreignId('estatus_id')->references('id')->on('estatus');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal');
+        Schema::dropIfExists('alumnos');
     }
 };

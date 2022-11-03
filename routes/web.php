@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\ActividadController;
+use App\Http\Controllers\AlumnoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,12 +20,24 @@ use Inertia\Inertia;
 
 /* Route::redirect('/here', '/there'); */
 
- Route::get('/', function () {
-    return redirect('/login');
+Route::get('/', function () {
+     return redirect('/login');
 }); 
+
+
 Route::resource('personal', PersonalController::class)
-    ->only(['index','store','update','create','update','destroy'])
-    ->middleware(['auth']);
+->only(['index','store','update','create','update','destroy'])
+->middleware(['auth']);
+
+
+Route::resource('actividad', ActividadController::class)
+->only(['index','store','update','create','update','destroy'])
+->middleware(['auth']);
+
+Route::resource('alumno', AlumnoController::class)
+->only(['index','store','update','create','update','destroy'])
+->middleware(['auth']);
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
