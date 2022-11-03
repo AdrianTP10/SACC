@@ -18,6 +18,7 @@ class AlumnoController extends Controller
             'alumnos' => Alumno::all()->map(function ($alumno) {
     
                 return [
+                    'id' => $alumno->id,
                     'nombre' => $alumno->nombre,
                     'apellido' => $alumno->apellido,
                     'no_control' => $alumno->no_control,
@@ -37,7 +38,9 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Alumno/Create',[
+            //'actividades' => Alumno::all('descripcion','valor_curricular','estatus_id')->toArray()
+        ]);
     }
 
     /**
@@ -59,7 +62,9 @@ class AlumnoController extends Controller
      */
     public function edit(Alumno $alumno)
     {
-        //
+        return Inertia::render('Alumno/Edit',[
+            //'actividades' => Alumno::all('descripcion','valor_curricular','estatus_id')->toArray()
+        ]);
     }
 
     /**

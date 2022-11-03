@@ -23,6 +23,8 @@ function Index({ auth, personal}) {
         )
     }
 
+    c
+
     return (
         <TestLayout 
             auth={auth}

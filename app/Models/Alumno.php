@@ -20,8 +20,6 @@ class Alumno extends Model
         'estatus_id',
     ];
 
-    protected $hidden = ['id'];
-
 
     public function estatus(){
         return $this->belongsTo(Estatus::class, 'estatus_id');

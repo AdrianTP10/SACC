@@ -26,16 +26,16 @@ Route::get('/', function () {
 
 
 Route::resource('personal', PersonalController::class)
-->only(['index','store','update','create','update','destroy'])
+->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 
 
 Route::resource('actividad', ActividadController::class)
-->only(['index','store','update','create','update','destroy'])
+->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 
 Route::resource('alumno', AlumnoController::class)
-->only(['index','store','update','create','update','destroy'])
+->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 
 

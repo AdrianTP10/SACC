@@ -5,11 +5,33 @@ import { Head } from "@inertiajs/inertia-react";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
+import { Badge } from 'primereact/badge';
+import { Toolbar } from 'primereact/toolbar';
+
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
 function Index({ auth, alumnos}) {
+    
+
+     const statusBodyTemplate = (rowData) => {
+        return <Badge   value={rowData.estatus} size="large" severity="warning"></Badge>
+        //<span className={`customer-badge status-${rowData.estatus}`}>{rowData.estatus}</span>;
+    }
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+                <Link href={route("alumno.edit", rowData.id)}>
+                    <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2"/>
+                </Link>
+                
+               
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteProduct(rowData)} />
+            </React.Fragment>
+        );
+    }
     return (
         <TestLayout 
             auth={auth}
@@ -54,7 +76,9 @@ function Index({ auth, alumnos}) {
                 <Column field="apellido" header="Apellido" sortable></Column>
                 <Column field="no_control" header="No. Control"></Column>
                 <Column field="semestre" header="Semestre"></Column>
+                <Column field="estatus" header="Estatus" body={statusBodyTemplate} sortable></Column>
                 <Column field="carrera" header="Carrera"></Column>
+                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
             </DataTable>
         </TestLayout>
     );
