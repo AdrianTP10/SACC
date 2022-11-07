@@ -18,11 +18,11 @@ class EstatusSeeder extends Seeder
     {
         $data = [
             [
-                'descripcion' => 'activo'
+                'descripcion' => 'Activo'
             ],
 
             [
-                'descripcion' => 'inactivo'
+                'descripcion' => 'Inactivo'
             ]
         ];
         DB::table('estatus')->insert($data);

@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Alumno;
-use App\Models\Carrera;
-use App\Models\Estatus;
+
 use Illuminate\Http\Request;
+use App\Models\Alumno;
+use App\Models\Estatus;
+use App\Models\Solicitud;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 
-
-class AlumnoController extends Controller
+class SolicitudController extends Controller
 {
      /**
      * Display a listing of the resource.
@@ -18,21 +18,20 @@ class AlumnoController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Alumno/Index',[
-            'alumnos' => Alumno::all()->map(function ($alumno) {
-    
-                return [
-                    'id' => $alumno->id,
-                    'nombre' => $alumno->nombre,
-                    'apellido' => $alumno->apellido,
-                    'no_control' => $alumno->no_control,
-                    'semestre' => $alumno->semestre,
-                    'carrera' => $alumno->carrera->nombre,
-                    'estatus' => $alumno->estatus->descripcion,
-                ];
-            }),
-            //'actividades' => Alumno::all('descripcion','valor_curricular','estatus_id')->toArray()
+        return Inertia::render('Solicitud/Index',[
+            'solicitudes' => Solicitud::all()->toArray()
+           
         ]);
+
+        /*return [
+                    'id' => $solicitud->id,
+                    'nombre' => $solicitud->nombre,
+                    'apellido' => $solicitud->apellido,
+                    'no_control' => $solicitud->no_control,
+                    'semestre' => $solicitud->semestre,
+                    'carrera' => $solicitud->carrera->nombre,
+                    'estatus' => $solicitud->estatus->descripcion,
+                ];*/
     }
 
     /**
@@ -42,10 +41,7 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Alumno/Create', [
-            'lista_estatus' => Estatus::all('id','descripcion'),
-            'lista_carreras' => Carrera::all('id','nombre'),
-        ]);
+        return Inertia::render('Alumno/Create');
     }
 
     /**
@@ -59,26 +55,12 @@ class AlumnoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:191',
             'apellido' => 'required|string|max:191',
-            'no_control' => 'required|integer|max:8',
-            'semestre' => 'required|integer',
-            'carrera_id' => 'required|integer',
-            'estatus_id' => 'required|integer',
+            'no_control' => 'required|integer',
+            
+            
         ]);
-        Alumno::create($validated);
-        //return Redirect::route('alumnos.index')->with('success', 'Alumno Creado.');
-        return Redirect::route('alumnos.index');
-
-        /* Request::validate([
-            'first_name' => ['required', 'max:50'],
-            'last_name' => ['required', 'max:50'],
-            'email' => ['required', 'max:50', 'email'],
-        ]);
-  
-        $alumno = Alumno::create(
-          Request::only('nombre', 'apellido', 'no_control','estatus_id')
-        ); 
-  
-        return Redirect::route('users.show', $user);*/
+        Solicitud::create($validated);
+        return Redirect::route('alumnos.index')->with('success', 'Alumno Creado.');
     }
 
     /**
@@ -113,7 +95,7 @@ class AlumnoController extends Controller
      * @param  \App\Models\Alumno  $alumno
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Alumno $alumno)
+    public function update(Request $request, Solicitud $solicitud)
     {
         
         $validated = $request->validate([
@@ -124,7 +106,7 @@ class AlumnoController extends Controller
         ]);
         //$estatus = Estatus::findOrFail($request->estatus);
 
-        $alumno->update($validated);
+        $solicitud->update($validated);
         return Redirect::route('alumnos.index'); 
         //$request->user()->personal()->create($validated);
     }

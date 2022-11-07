@@ -3,6 +3,7 @@
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\SolicitudController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,11 +19,11 @@ use Inertia\Inertia;
     ]);
 }); */
 
-/* Route::redirect('/here', '/there'); */
+Route::redirect('/', '/login');
 
-Route::get('/', function () {
+/* Route::get('/', function () {
      return redirect('/login');
-}); 
+});  */
 
 
 Route::resource('personal', PersonalController::class)
@@ -30,11 +31,15 @@ Route::resource('personal', PersonalController::class)
 ->middleware(['auth']);
 
 
-Route::resource('actividad', ActividadController::class)
+Route::resource('actividades', ActividadController::class)
 ->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 
-Route::resource('alumno', AlumnoController::class)
+Route::resource('alumnos', AlumnoController::class)
+->only(['index','store','update','create','update','edit','destroy'])
+->middleware(['auth']);
+
+Route::resource('solicitudes', SolicitudController::class)
 ->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 
