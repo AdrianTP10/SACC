@@ -28,4 +28,8 @@ class Alumno extends Model
     public function carrera(){
         return $this->belongsTo(Carrera::class, 'carrera_id');
     }
+
+    public function solicitudes(){
+        return $this->hasMany(Solicitud::class);
+    }
 }

@@ -21,18 +21,27 @@ function Index({ auth, alumnos}) {
     const [globalFilter, setGlobalFilter] = useState(null);
 
     const header = (
-        <div className="table-header">
+        <div className="table-header flex justify-between">
             <span className="p-input-icon-left">
                 <i className="pi pi-search" />
                 {/* <TextInput handleChange={(e) => setGlobalFilter(e.target.value)} ></TextInput> */}
                 
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
             </span>
+
+            
+            <Link href={route('alumnos.create')} 
+                method={'get'}
+                as={'a'}
+                className=' items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'
+            >
+                Crear
+            </Link>
         </div>
     );
 
     const statusBodyTemplate = (rowData) => {
-        if(rowData.estatus == 'activo'){
+        if(rowData.estatus == 'Activo'){
             return <span className=' bg-green-200 rounded-md p-1 text-center text-green-800 font-mono '>{rowData.estatus}</span>
         }
         return <span className=' bg-red-200 rounded-md p-1 text-center text-red-800 font-mono '>{rowData.estatus}</span>
@@ -83,16 +92,6 @@ function Index({ auth, alumnos}) {
                 width={'50%'}
             />  
             */}       
-
-            <Link href={route('alumnos.create')} 
-                method={'get'}
-                as={'a'}
-                className=' items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'
-            >
-                Crear
-            </Link>
-            
-
             
             <DataTable value={alumnos} responsiveLayout="scroll" scrollable dataKey='id'
                 size="small" stripedRows  globalFilter={globalFilter} header={header}

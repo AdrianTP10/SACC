@@ -10,6 +10,23 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
 function Index({ auth, actividades}) {
+    const actionBodyTemplate = (rowData) => {
+        return (
+           <React.Fragment>
+              <Link href={route("actividades.edit", rowData.id)} method="get" as="button">
+                 <span className="bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
+                    <i className="pi pi-pencil"></i>
+                 </span>
+              </Link>
+  
+              <Link href={route("actividades.destroy", rowData.id)} method="delete" as="button">
+                 <span className="bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3">
+                    <i className="pi pi-trash"></i>
+                 </span>
+              </Link>
+           </React.Fragment>
+        );
+     };
     return (
         <TestLayout 
             auth={auth}
@@ -35,7 +52,7 @@ function Index({ auth, actividades}) {
             />  
             */}       
 
-            <Link href={route('actividad.create')} 
+            <Link href={route('actividades.create')} 
                 method={'get'}
                 as={'a'}
                 className=' items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'
@@ -45,7 +62,7 @@ function Index({ auth, actividades}) {
             
 
             
-            <DataTable value={actividades} responsiveLayout="scroll" scrollable
+            <DataTable value={actividades} responsiveLayout="scroll" scrollable dataKey='id'
                 size="small" stripedRows filterDisplay="menu"
                 paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -53,6 +70,7 @@ function Index({ auth, actividades}) {
                 <Column field="descripcion" header="Actividad" sortable></Column>
                 <Column field="valor_curricular" header="Valor" sortable></Column>
                 <Column field="estatus" header="Estatus"></Column>
+                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: "6rem" }}></Column>
             </DataTable>
         </TestLayout>
     );

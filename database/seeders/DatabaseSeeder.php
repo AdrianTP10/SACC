@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ActividadesSeeder::class,
             CarrerasSeeder::class,
             AlumnoSeeder::class,
+            DepartamentosSeeder::class,
         ]);
     }
 }

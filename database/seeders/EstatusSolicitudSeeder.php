@@ -19,18 +19,18 @@ class EstatusSolicitudSeeder extends Seeder
     {
         $data = [
             [
-                'descripcion' => 'nuevo'
+                'descripcion' => 'Nuevo'
             ],
 
             [
-                'descripcion' => 'aceptado'
+                'descripcion' => 'Aceptado'
             ],
 
             [
-                'descripcion' => 'acreditado'
+                'descripcion' => 'Acreditado'
             ],
             [
-                'descripcion' => 'no valido'
+                'descripcion' => 'No valido'
             ]
         ];
         DB::table('estatus_solicitud')->insert($data);

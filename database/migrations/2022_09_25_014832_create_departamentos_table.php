@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('departamentos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_depto');
+            $table->string('nombre');
             $table->foreignId('jefe_id')->references('id')->on('personal');
             $table->timestamps();
         });

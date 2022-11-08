@@ -8,13 +8,14 @@ import TextInput from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Edit({ auth, alumno, lista_estatus }) {
+function Edit({ auth, alumno, lista_estatus, lista_carreras }) {
     const { data, setData, patch, proccesing, reset, errors } = useForm({
         nombre: alumno.nombre,
         apellido: alumno.apellido,
         no_control: alumno.no_control,
         semestre: alumno.semestre,
         estatus_id: alumno.estatus_id,
+        carrera_id: alumno.carrera_id,
     });
 
     const submit = (e) => {
@@ -26,6 +27,12 @@ function Edit({ auth, alumno, lista_estatus }) {
     const statusSelectItems = [];
     lista_estatus.map((registro) =>{
         statusSelectItems.push({label: registro.descripcion, value: registro.id})
+    })
+
+     //Lista de carreras para seleccionar
+    const carrerasSelectItems = [];
+    lista_carreras.map((registro) =>{
+      carrerasSelectItems.push({label: registro.nombre, value: registro.id})
     })
     
     
@@ -48,7 +55,7 @@ function Edit({ auth, alumno, lista_estatus }) {
 
             <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
                 <form onSubmit={submit}>
-                    <InputLabel forInput={data.Nombre}>Nombre</InputLabel>
+                    <InputLabel forInput={data.nombre}>Nombre</InputLabel>
                     <input
                         value={data.nombre}
                         onChange={(e) => setData("nombre", e.target.value)}
@@ -57,7 +64,7 @@ function Edit({ auth, alumno, lista_estatus }) {
                         className="mb-3 block w-full border-gray-300 rounded-lg"
                         name="nombre"
                     />
-                    <InputError message={errors.title} className="mt-2" />
+                    <InputError message={errors.nombre} className="mt-2" />
 
                     <InputLabel forInput={data.apellido}>Apellido</InputLabel>
                     
@@ -69,7 +76,7 @@ function Edit({ auth, alumno, lista_estatus }) {
                         className="mb-3 block w-full border-gray-300 rounded-lg"
                         name="apellido"
                     />
-                    <InputError message={errors.title} className="mt-2" />
+                    <InputError message={errors.apellido} className="mt-2" />
 
                     <InputLabel forInput={data.no_control}>No. Control</InputLabel>
                     <input
@@ -80,7 +87,7 @@ function Edit({ auth, alumno, lista_estatus }) {
                         className="mb-3 block w-full border-gray-300 rounded-lg"
                         name="no_control"
                     />
-                    <InputError message={errors.title} className="mt-2" />
+                    <InputError message={errors.no_control} className="mt-2" />
 
                     <InputLabel forInput={data.estatus_id}>Estatus</InputLabel>
                     <Dropdown
@@ -91,8 +98,29 @@ function Edit({ auth, alumno, lista_estatus }) {
                         placeholder="Estatus"
                         className="w-full"
                     />
-
                     <InputError message={errors.title} className="mt-2" />
+
+                    <InputLabel forInput={data.semestre}>Semestre</InputLabel>
+                    <input
+                        value={data.semestre}
+                        onChange={(e) => setData("semestre", e.target.value)}
+                        type="number"
+                        min="1" max="12"
+                        autoFocus
+                        className="mb-3 block w-full border-gray-300 rounded-lg"
+                        name="semestre"
+                    />
+                    <InputError message={errors.semestre} className="mt-2" />
+
+                    <InputLabel forInput={data.carrera_id}>Carrera</InputLabel>
+                    <Dropdown
+                        value={data.carrera_id}
+                        options={carrerasSelectItems}
+                        onChange={(e) => setData("carrera_id", e.value)}
+                        className='w-full'
+                        
+                    />
+                    <InputError message={errors.carrera_id} className="mt-2" />
 
 
                     <Link href={route('alumnos.index')} className="mt-4 font-semibold text-xs text-white bg-red-600 hover:bg-red-700 rounded-md mr-2 mb-2 px-4 py-2 uppercase">

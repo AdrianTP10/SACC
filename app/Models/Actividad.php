@@ -18,10 +18,14 @@ class Actividad extends Model
         'estatus_id',
     ];
 
-    protected $hidden = ['id'];
+    
 
 
     public function estatus(){
         return $this->belongsTo(Estatus::class, 'estatus_id');
+    }
+
+    public function solicitudes(){
+        return $this->hasMany(Solicitud::class);
     }
 }

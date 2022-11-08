@@ -19,6 +19,7 @@ class ActividadController extends Controller
             'actividades' => Actividad::all()->map(function ($actividad) {
 
                 return [
+                    'id' => $actividad->id,
                     'descripcion' => $actividad->descripcion,
                     'valor_curricular' => $actividad->valor_curricular,
                     'estatus' => $actividad->estatus->descripcion,
@@ -35,7 +36,7 @@ class ActividadController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Actividad/Create');
     }
 
     /**
@@ -57,7 +58,15 @@ class ActividadController extends Controller
      */
     public function edit(Actividad $actividad)
     {
-        //
+        $dato = Actividad::findOrFail($actividad->id);
+        return Inertia::render('Actividad/Edit',[
+            'actividad' => 
+            [
+                'id' => $dato->id,
+                'nombre' => $dato->descripcion,
+                'estatus' => $dato->estatus->descripcion,
+            ],
+        ]);
     }
 
     /**

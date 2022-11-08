@@ -19,6 +19,7 @@ function Create({auth, lista_estatus, lista_carreras}) {
 
    const submit = (e) => {
       e.preventDefault();
+      //console.log(data)
       post(route("alumnos.store"), { onSucces: () => reset() });
    };
 
@@ -43,7 +44,7 @@ function Create({auth, lista_estatus, lista_carreras}) {
                >
                   Alumnos
                </Link>
-               <span className="font-medium text-indigo-600"> /</span> Crear
+               <span className="font-medium text-indigo-600"> /</span> Registro
             </h1>
          }
       >
@@ -61,7 +62,7 @@ function Create({auth, lista_estatus, lista_carreras}) {
                   className="mb-3 block w-full border-gray-300 rounded-lg"
                   name="nombre"
                />
-               <InputError message={errors.title} className="mt-2" />
+               <InputError message={errors.nombre} className="mt-2" />
 
                <InputLabel forInput={data.apellido}>Apellido</InputLabel>
                <input
@@ -72,18 +73,18 @@ function Create({auth, lista_estatus, lista_carreras}) {
                   className="mb-3 block w-full border-gray-300 rounded-lg"
                   name="apellido"
                />
-               <InputError message={errors.title} className="mt-2" />
+               <InputError message={errors.apellido} className="mt-2" />
 
                <InputLabel forInput={data.no_control}>No. Control</InputLabel>
                <input
                   value={data.no_control}
                   onChange={(e) => setData("no_control", e.target.value)}
-                  type="text"
+                  type="number"
                   autoFocus
                   className="mb-3 block w-full border-gray-300 rounded-lg"
                   name="no_control"
                />
-               <InputError message={errors.title} className="mt-2" />
+               <InputError message={errors.no_control} className="mt-2" />
 
                <InputLabel forInput={data.estatus_id}>Estatus</InputLabel>
                <Dropdown
@@ -93,18 +94,20 @@ function Create({auth, lista_estatus, lista_carreras}) {
                   className='w-full'
                   
                />
-               <InputError message={errors.title} className="mt-2" />
+               <InputError message={errors.estatus_id} className="mt-2" />
 
 
                <InputLabel forInput={data.semestre}>Semestre</InputLabel>
                <input
                   value={data.semestre}
                   onChange={(e) => setData("semestre", e.target.value)}
-                  type="text"
+                  type="number"
+                  min="1" max="12"
                   autoFocus
                   className="mb-3 block w-full border-gray-300 rounded-lg"
                   name="no_control"
                />
+               <InputError message={errors.semestre} className="mt-2" />
 
                <InputLabel forInput={data.carrera_id}>Carrera</InputLabel>
                <Dropdown
@@ -114,12 +117,13 @@ function Create({auth, lista_estatus, lista_carreras}) {
                   className='w-full'
                   
                />
+               <InputError message={errors.carrera_id} className="mt-2" />
 
                <PrimaryButton
                    className="mt-4 text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg mr-2 mb-2"
                    disabled={proccesing}
                >
-                  Crear Alumno
+                  Registrar Alumno
                </PrimaryButton>
             </form>
          </div>

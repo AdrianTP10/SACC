@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Alumno;
-use App\Models\Estatus;
 use App\Models\Solicitud;
+use App\Models\Actividad;
+use App\Models\Departamento;
+use App\Models\EstatusSolicitud;
+use App\Models\Periodo;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 
@@ -19,19 +21,20 @@ class SolicitudController extends Controller
     public function index()
     {
         return Inertia::render('Solicitud/Index',[
-            'solicitudes' => Solicitud::all()->toArray()
-           
-        ]);
-
-        /*return [
+            'solicitudes' => Solicitud::all()->map(function ($solicitud) {
+                return [
                     'id' => $solicitud->id,
-                    'nombre' => $solicitud->nombre,
-                    'apellido' => $solicitud->apellido,
-                    'no_control' => $solicitud->no_control,
-                    'semestre' => $solicitud->semestre,
-                    'carrera' => $solicitud->carrera->nombre,
+                    'actividad' => $solicitud->actividad->descripcion,
+                    'periodo' => $solicitud->periodo->descripcion,
+                    'departamento' => $solicitud->departamento->nombre,
+                    'alumno' => $solicitud->alumno->nombre . $solicitud->alumno->appelido,
+                    'alumno_ncontrol' => $solicitud->alumno->no_control,
                     'estatus' => $solicitud->estatus->descripcion,
-                ];*/
+                    'responsable' => $solicitud->responsable->nombre . $solicitud->responsable->apellido,
+                ];
+            }),
+            //'actividades' => Solicitud::all('descripcion','valor_curricular','estatus_id')->toArray()
+        ]);
     }
 
     /**
@@ -41,7 +44,12 @@ class SolicitudController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Alumno/Create');
+        return Inertia::render('Solicitud/Create',[
+            'lista_estatus' => EstatusSolicitud::all('id','descripcion'),
+            'lista_departamento' => Departamento::all('id','nombre'), 
+            'lista_actividades' => Actividad::all('id', 'descripcion'), 
+            'lista_periodos' => Periodo::all('id', 'descripcion')
+        ]);
     }
 
     /**
@@ -52,7 +60,7 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+       /*  $validated = $request->validate([
             'nombre' => 'required|string|max:191',
             'apellido' => 'required|string|max:191',
             'no_control' => 'required|integer',
@@ -60,31 +68,32 @@ class SolicitudController extends Controller
             
         ]);
         Solicitud::create($validated);
-        return Redirect::route('alumnos.index')->with('success', 'Alumno Creado.');
+        return Redirect::route('alumnos.index')->with('success', 'Solicitud Creado.'); */
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Alumno  $alumno
+     * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function edit(Alumno $alumno)
-    {
-        //$alumno = Alumno::findOrFail($id);
- 
-        return Inertia::render('Alumno/Edit',[
-            'alumno' => 
+    public function edit(Solicitud $solicitud)
+    {   
+       
+        var_dump($solicitud);
+        return Inertia::render('Solicitud/Edit',[
+            'solicitud' => 
             [
-                'id' => $alumno->id,
-                'nombre' => $alumno->nombre,
-                'apellido' => $alumno->apellido,
-                'no_control' => $alumno->no_control,
-                'semestre' => $alumno->semestre,
-                'carrera' => $alumno->carrera->nombre,
-                'estatus_id' => $alumno->estatus->id,
+                'id' => $solicitud->id,
+                'actividad' => $solicitud->actividad->descripcion,
+                'periodo' => $solicitud->periodo->descripcion,
+                'departamento' => $solicitud->departamento->nombre,
+                'alumno' => $solicitud->alumno->nombre . $solicitud->alumno->appelido,
+                'alumno_ncontrol' => $solicitud->alumno->no_control,
+                'estatus' => $solicitud->estatus->descripcion,
+                'responsable' => $solicitud->responsable->nombre . $solicitud->responsable->apellido,
             ],
-            'lista_estatus' => Estatus::all('id','descripcion')
+            'lista_estatus' => EstatusSolicitud::all('id','descripcion')
         ]);
     }
 
@@ -92,34 +101,34 @@ class SolicitudController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Alumno  $alumno
+     * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Solicitud $solicitud)
     {
         
-        $validated = $request->validate([
+        /* $validated = $request->validate([
             'nombre' => 'required|string|max:191',
             'apellido' => 'required|string|max:191',
             'no_control' => 'required|string|max:8',
             'estatus_id' => 'required|integer',
         ]);
-        //$estatus = Estatus::findOrFail($request->estatus);
+     
 
         $solicitud->update($validated);
-        return Redirect::route('alumnos.index'); 
-        //$request->user()->personal()->create($validated);
+        return Redirect::route('alumnos.index');  */
+  
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Alumno  $alumno
+     * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Alumno $alumno)
+    public function destroy(Solicitud $solicitud)
     {
-        $alumno->delete();
-        /* return Redirect::route('alumno.index'); */
+        $solicitud->delete();
+        return Redirect::route('solicitudes.index');
     }
 }

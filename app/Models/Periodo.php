@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Departamento extends Model
+class Periodo extends Model
 {
     use HasFactory;
 
-    protected $table = "departamentos";
+    protected $table = "periodos";
 
     public function solicitudes(){
         return $this->hasMany(Solicitud::class);

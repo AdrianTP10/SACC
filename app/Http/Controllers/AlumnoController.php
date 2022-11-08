@@ -59,26 +59,14 @@ class AlumnoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:191',
             'apellido' => 'required|string|max:191',
-            'no_control' => 'required|integer|max:8',
-            'semestre' => 'required|integer',
-            'carrera_id' => 'required|integer',
-            'estatus_id' => 'required|integer',
+            'no_control' => 'required|integer|numeric|max_digits:8',
+            'semestre' => 'required|integer|numeric|min:1|max:12',
+            'carrera_id' => 'required|integer|numeric',
+            'estatus_id' => 'required|integer|numeric',
         ]);
         Alumno::create($validated);
         //return Redirect::route('alumnos.index')->with('success', 'Alumno Creado.');
         return Redirect::route('alumnos.index');
-
-        /* Request::validate([
-            'first_name' => ['required', 'max:50'],
-            'last_name' => ['required', 'max:50'],
-            'email' => ['required', 'max:50', 'email'],
-        ]);
-  
-        $alumno = Alumno::create(
-          Request::only('nombre', 'apellido', 'no_control','estatus_id')
-        ); 
-  
-        return Redirect::route('users.show', $user);*/
     }
 
     /**
@@ -100,9 +88,11 @@ class AlumnoController extends Controller
                 'no_control' => $alumno->no_control,
                 'semestre' => $alumno->semestre,
                 'carrera' => $alumno->carrera->nombre,
+                'carrera_id' => $alumno->carrera->id,
                 'estatus_id' => $alumno->estatus->id,
             ],
-            'lista_estatus' => Estatus::all('id','descripcion')
+            'lista_estatus' => Estatus::all('id','descripcion'),
+            'lista_carreras' => Carrera::all('id','nombre'),
         ]);
     }
 
@@ -119,8 +109,10 @@ class AlumnoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:191',
             'apellido' => 'required|string|max:191',
-            'no_control' => 'required|string|max:8',
-            'estatus_id' => 'required|integer',
+            'no_control' => 'required|integer|numeric|max_digits:8',
+            'semestre' => 'required|integer|numeric|min:1|max:12',
+            'carrera_id' => 'required|integer|numeric',
+            'estatus_id' => 'required|integer|numeric',
         ]);
         //$estatus = Estatus::findOrFail($request->estatus);
 

@@ -17,4 +17,8 @@ class Personal extends Model
     ];
 
     protected $hidden = ['id'];
+
+    public function solicitudes(){
+        return $this->hasMany(Solicitud::class);
+    }
 }
