@@ -47,10 +47,11 @@ class SolicitudController extends Controller
     public function create()
     {
         return Inertia::render('Solicitud/Create',[
-            'lista_estatus' => EstatusSolicitud::all('id','descripcion'),
-            'lista_departamento' => Departamento::all('id','nombre'), 
-            'lista_actividades' => Actividad::all('id', 'descripcion'), 
-            'lista_periodos' => Periodo::all('id', 'descripcion')
+            'estatus' => EstatusSolicitud::all('id','descripcion'),
+            'personal' => Personal::all('id', 'nombre','apellido'),
+            'actividades' => Actividad::all('id', 'descripcion'),
+            'periodos' => Periodo::all('id', 'descripcion'),
+            'departamentos' => Departamento::all('id', 'nombre'),
         ]);
     }
 
@@ -62,15 +63,31 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-       /*  $validated = $request->validate([
-            'nombre' => 'required|string|max:191',
-            'apellido' => 'required|string|max:191',
-            'no_control' => 'required|integer',
-            
-            
+       /*  $alumno = Alumno::where('no_control', '=',  $request->no_control)->firstOrFail(); */
+        $request->validate([
+            'actividad_id' => 'exists:actividades,id| required',
+            'periodo_id' => 'exists:periodos,id| required',
+            'departamento_id' => 'exists:departamentos,id| required',
+            'no_control' => 'exists:alumnos,no_control| required', 
+            'estatus_id' => 'exists:estatus_solicitud,id| required',
+            'responsable_id' => 'exists:personal,id| required',
+            'calificacion' => 'required|integer|numeric',
+            'valor' => 'required||numeric|min:0.5|max:2.0',
         ]);
-        Solicitud::create($validated);
-        return Redirect::route('alumnos.index')->with('success', 'Solicitud Creado.'); */
+
+        $infoSolicitud = [
+            'actividad_id' => $request->actividad_id,
+            'periodo_id' => $request->periodo_id,
+            'departamento_id' => $request->periodo_id,
+            /* 'alumno_id' => $alumno->id, */
+            'estatus_id' => $request->estatus_id,
+            'responsable_id' => $request->responsable_id,
+            'calificacion' => $request->calificacion,
+            'valor' => $request->valor,
+        ];
+        /* Solicitud::create($infoSolicitud); */
+
+        return Redirect::route('solicitud.index')->with('success', 'Solicitud Creada.');
     }
 
     /**
@@ -113,16 +130,16 @@ class SolicitudController extends Controller
     {
         $alumno = Alumno::findOrFail($request->no_control);
         $validated = $request->validate([
-            'actividad_id' => 'required|integer|numeric',
-            'periodo_id' => 'required|integer|numeric',
-            'departamento_id' => 'required|integer|numeric',
+            'actividad_id' => 'exists:actividades,id | required',
+            'periodo_id' => 'exists:periodos,id | required',
+            'departamento_id' => 'exists:departamentos,id | required',
             /* 'no_control', => $alumno->no_control, */
-            'estatus_id' => 'required|integer|numeric',
-            'responsable_id' => 'required|integer|numeric',
+            'estatus_id' => 'exists:estatus_solicitud,id | required',
+            'responsable_id' => 'exists:personal,id | required',
             'calificacion' => 'required|integer|numeric',
             'valor' => 'required|integer|numeric|min:0.5|max:2.0',
         ]);
-        //$estatus = Estatus::findOrFail($request->estatus);
+
 
         $solicitud->update($validated);
         return Redirect::route('solicitud.index'); 

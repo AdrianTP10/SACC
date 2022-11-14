@@ -27,20 +27,20 @@ Route::redirect('/', '/login');
 
 
 Route::resource('personal', PersonalController::class)
-->only(['index','store','update','create','update','edit','destroy'])
+->only(['index','store','update','create','edit','destroy'])
 ->middleware(['auth']);
 
 
 Route::resource('actividad', ActividadController::class)
-->only(['index','store','update','create','update','edit','destroy'])
+->only(['index','store','update','create','edit','destroy'])
 ->middleware(['auth']);
 
 Route::resource('alumno', AlumnoController::class)
-->only(['index','store','update','create','update','edit','destroy'])
+->only(['index','store','update','create','edit','destroy'])
 ->middleware(['auth']);
 
 Route::resource('solicitud', SolicitudController::class)
-->only(['index','store','update','create','update','edit','destroy'])
+->only(['index','store','update','create','edit','destroy'])
 ->middleware(['auth']);
 
 
