@@ -30,7 +30,7 @@ function Index({ auth, alumnos}) {
             </span>
 
             
-            <Link href={route('alumnos.create')} 
+            <Link href={route('alumno.create')} 
                 method={'get'}
                 as={'a'}
                 className=' items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'
@@ -49,7 +49,7 @@ function Index({ auth, alumnos}) {
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Link href={route("alumnos.edit", rowData.id)} method='get' as='button' >
+                <Link href={route("alumno.edit", rowData.id)} method='get' as='button' >
                     {/* <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2"/> */}
                     <span className='bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3'>
                         
@@ -58,7 +58,7 @@ function Index({ auth, alumnos}) {
                     </span>
                 </Link>
                 
-                <Link href={route("alumnos.destroy", rowData.id)} method='delete' as='button'>
+                <Link href={route("alumno.destroy", rowData.id)} method='delete' as='button'>
                     {/* <Button icon="pi pi-trash" className="p-button-rounded p-button-warning"/> */}
                     <span className='bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3'>
                         <i className="pi pi-trash"></i>

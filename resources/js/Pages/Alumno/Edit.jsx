@@ -20,7 +20,7 @@ function Edit({ auth, alumno, lista_estatus, lista_carreras }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("alumnos.update", alumno.id), { onSucces: () => reset() });
+        patch(route("alumno.update", alumno.id), { onSucces: () => reset() });
     };
 
     //Lista de estatus para seleccionar
@@ -42,7 +42,7 @@ function Edit({ auth, alumno, lista_estatus, lista_carreras }) {
             header={
                 <h1 className="mb-8 text-3xl font-bold">
                 <Link
-                    href={route('alumnos.index')}
+                    href={route('alumno.index')}
                     className="text-indigo-600 hover:text-indigo-700"
                 >
                     Alumnos
@@ -123,7 +123,7 @@ function Edit({ auth, alumno, lista_estatus, lista_carreras }) {
                     <InputError message={errors.carrera_id} className="mt-2" />
 
 
-                    <Link href={route('alumnos.index')} className="mt-4 font-semibold text-xs text-white bg-red-600 hover:bg-red-700 rounded-md mr-2 mb-2 px-4 py-2 uppercase">
+                    <Link href={route('alumno.index')} className="mt-4 font-semibold text-xs text-white bg-red-600 hover:bg-red-700 rounded-md mr-2 mb-2 px-4 py-2 uppercase">
                         Cancelar
                     </Link>
                     <PrimaryButton

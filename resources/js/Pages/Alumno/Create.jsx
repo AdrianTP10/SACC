@@ -20,7 +20,7 @@ function Create({auth, lista_estatus, lista_carreras}) {
    const submit = (e) => {
       e.preventDefault();
       //console.log(data)
-      post(route("alumnos.store"), { onSucces: () => reset() });
+      post(route("alumno.store"), { onSucces: () => reset() });
    };
 
    const statusSelectItems = [];
@@ -39,7 +39,7 @@ function Create({auth, lista_estatus, lista_carreras}) {
          header={
             <h1 className="mb-8 text-3xl font-bold">
                <Link
-                  href={route('alumnos.index')}
+                  href={route('alumno.index')}
                   className="text-indigo-600 hover:text-indigo-700"
                >
                   Alumnos

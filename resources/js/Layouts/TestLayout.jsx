@@ -225,7 +225,7 @@ export default function Authenticated({ auth, header, children }) {
                             </NavLink>
 
                             <NavLink
-                                href={route("actividades.index")}
+                                href={route("actividad.index")}
                                 active={route().current("actividad.index")}
                             >
                                 <svg
@@ -248,7 +248,7 @@ export default function Authenticated({ auth, header, children }) {
                             </NavLink>
 
                             <NavLink
-                                href={route("solicitudes.index")}
+                                href={route("solicitud.index")}
                                 active={route().current("solcitudes.index")}
                             >
                                 <svg
@@ -271,7 +271,7 @@ export default function Authenticated({ auth, header, children }) {
                             </NavLink>
 
                             <NavLink
-                                href={route("alumnos.index")}
+                                href={route("alumno.index")}
                                 active={route().current("alumno.index")}
                             >
                                 <svg

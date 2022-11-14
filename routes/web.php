@@ -31,15 +31,15 @@ Route::resource('personal', PersonalController::class)
 ->middleware(['auth']);
 
 
-Route::resource('actividades', ActividadController::class)
+Route::resource('actividad', ActividadController::class)
 ->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 
-Route::resource('alumnos', AlumnoController::class)
+Route::resource('alumno', AlumnoController::class)
 ->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 
-Route::resource('solicitudes', SolicitudController::class)
+Route::resource('solicitud', SolicitudController::class)
 ->only(['index','store','update','create','update','edit','destroy'])
 ->middleware(['auth']);
 

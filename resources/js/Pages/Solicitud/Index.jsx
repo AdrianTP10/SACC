@@ -26,7 +26,7 @@ function Index({ auth, solicitudes }) {
          </span>
 
          <Link
-            href={route("solicitudes.create")}
+            href={route("solicitud.create")}
             method={"get"}
             as={"a"}
             className=" items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150"
@@ -69,13 +69,13 @@ function Index({ auth, solicitudes }) {
    const actionBodyTemplate = (rowData) => {
       return (
          <React.Fragment>
-            <Link href={route("solicitudes.edit", rowData.id)} method="get" as="button">
+            <Link href={route("solicitud.edit",rowData.id)} method="get" as="button">
                <span className="bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
                   <i className="pi pi-pencil"></i>
                </span>
             </Link>
 
-            <Link href={route("solicitudes.destroy", rowData.id)} method="delete" as="button">
+            <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button">
                <span className="bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3">
                   <i className="pi pi-trash"></i>
                </span>
@@ -97,13 +97,13 @@ function Index({ auth, solicitudes }) {
             size="small" stripedRows globalFilter={globalFilter} header={header}
             paginator rows={10} rowsPerPageOptions={[5, 10, 25]} paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
          >
-            <Column field="id" header="Id"></Column>
-            <Column field="actividad" header="Actividad"></Column>
+            <Column field="actividad" header="Actividad" sortable></Column>
+            <Column field="alumno" header="Alumno"></Column>
+            <Column field="alumno_ncontrol" header="No. Control"></Column>
             <Column field="periodo" header="Periodo" sortable></Column>
             <Column field="departamento" header="Departamento" sortable></Column>
             <Column field="responsable" header="Responsable"></Column>
-            <Column field="alumno" header="Alumno"></Column>
-            <Column field="alumno_ncontrol" header="No. Control"></Column>
+            
             <Column field="estatus" header="Estatus" body={statusBodyTemplate} sortable></Column>
             <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: "6rem" }}></Column>
          </DataTable>

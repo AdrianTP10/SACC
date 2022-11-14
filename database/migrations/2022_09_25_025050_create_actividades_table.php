@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion');
-            $table->float('valor_curricular', 2, 1);
+            $table->float('valor', 2, 1);
             $table->foreignId('estatus_id')->references('id')->on('estatus');
             $table->timestamps();
         });

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('departamento_id')->references('id')->on('departamentos');
             $table->foreignId('responsable_id')->references('id')->on('personal');
             $table->foreignId('estatus_id')->references('id')->on('estatus_solicitud');
+            $table->float('valor', 2, 1);
             $table->integer('calificacion');
             $table->timestamps();
         });
