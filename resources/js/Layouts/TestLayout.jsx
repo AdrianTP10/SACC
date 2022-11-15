@@ -249,7 +249,7 @@ export default function Authenticated({ auth, header, children }) {
 
                             <NavLink
                                 href={route("solicitud.index")}
-                                active={route().current("solcitudes.index")}
+                                active={route().current("solicitud.index")}
                             >
                                 <svg
                                     className="w-6 h-6 stroke-current"

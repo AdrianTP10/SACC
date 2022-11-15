@@ -118,7 +118,12 @@ function Create({auth, lista_estatus, lista_carreras}) {
                   
                />
                <InputError message={errors.carrera_id} className="mt-2" />
+               
 
+
+               <Link href={route('alumno.index')} className="mt-4 font-semibold text-xs text-white bg-red-600 hover:bg-red-700 rounded-md mr-2 mb-2 px-4 py-2 uppercase">
+                        Cancelar
+                    </Link>
                <PrimaryButton
                    className="mt-4 text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg mr-2 mb-2"
                    disabled={proccesing}

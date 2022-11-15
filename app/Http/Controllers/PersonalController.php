@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Personal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class PersonalController extends Controller
@@ -16,7 +17,7 @@ class PersonalController extends Controller
     public function index()
     {
        return Inertia::render('Personal/Index',[
-        'personal' => Personal::all('nombre','apellido','rfc')->toArray()
+        'personal' => Personal::all('id','nombre','apellido','rfc')
         /* 'personal' => Personal::all()->get('nombre','apellidio','rfc') */
        /*  'personal' => Personal::all()->toJson() */
 
@@ -40,15 +41,27 @@ class PersonalController extends Controller
     {
         //validamos los datos
         $validated = $request->validate([
-            'title' => 'required|string|max:191',
+            'nombre' => 'required|string|max:191',
             'apellido' => 'required|string|max:191',
             'rfc' => 'required|string|max:13'
         ]);
-
-        $request->user()->personal()->create($validated);
-        return redirect(route('personal.index'));
+        Personal::create($validated);
+        return Redirect::route('personal.index');
     }
 
+    public function edit(Personal $personal)
+    {
+        $dato = Personal::findOrFail($personal->id);
+        return Inertia::render('Personal/Edit',[
+            'personal' => 
+            [
+                'id' => $dato->id,
+                'nombre' => $dato->nombre,
+                'apellido' => $dato->apellido,
+                'rfc' => $dato->rfc
+            ],
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -59,7 +72,14 @@ class PersonalController extends Controller
      */
     public function update(Request $request, Personal $personal)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:191',
+            'apellido' => 'required|string|max:191',
+            'rfc' =>'required|string|max:13',
+        ]);
+
+        $personal->update($validated);
+        return Redirect::route('personal.index');
     }
 
     /**
@@ -70,6 +90,6 @@ class PersonalController extends Controller
      */
     public function destroy(Personal $personal)
     {
-        //
+        $personal->delete();
     }
 }
