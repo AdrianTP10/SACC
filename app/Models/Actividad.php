@@ -16,6 +16,7 @@ class Actividad extends Model
         'descripcion',
         'valor_curricular',
         'estatus_id',
+        'valor',
     ];
 
     

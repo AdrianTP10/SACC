@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('no_control',8);
+            $table->string('no_control',8)->unique();
             $table->integer('semestre');
             $table->foreignId('carrera_id')->references('id')->on('carreras');
             $table->foreignId('estatus_id')->references('id')->on('estatus');

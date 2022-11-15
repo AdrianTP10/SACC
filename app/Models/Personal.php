@@ -16,7 +16,7 @@ class Personal extends Model
         'rfc',
     ];
 
-    protected $hidden = ['id'];
+    
 
     public function solicitudes(){
         return $this->hasMany(Solicitud::class);

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actividad;
+use App\Models\Estatus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Redirect;
 
 class ActividadController extends Controller
 {
@@ -21,7 +24,7 @@ class ActividadController extends Controller
                 return [
                     'id' => $actividad->id,
                     'descripcion' => $actividad->descripcion,
-                    'valor_curricular' => $actividad->valor_curricular,
+                    'valor_curricular' => $actividad->valor,
                     'estatus' => $actividad->estatus->descripcion,
                 ];
             }),
@@ -36,7 +39,9 @@ class ActividadController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Actividad/Create');
+        return Inertia::render('Actividad/Create',[
+            'estatus' => Estatus::all('id','descripcion'),
+        ]);
     }
 
     /**
@@ -47,7 +52,13 @@ class ActividadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'descripcion' => 'required|string|max:191',
+            'estatus_id' => 'exists:estatus,id| required',
+            'valor' => Rule::in([0.5,1.0, 1.5,2.0]),
+        ]);
+        Actividad::create($validated);
+        return Redirect::route('actividad.index');
     }
 
     /**
@@ -63,9 +74,11 @@ class ActividadController extends Controller
             'actividad' => 
             [
                 'id' => $dato->id,
-                'nombre' => $dato->descripcion,
-                'estatus' => $dato->estatus->descripcion,
+                'descripcion' => $dato->descripcion,
+                'estatus_id' => $dato->estatus_id,
+                'valor' => $dato->valor
             ],
+            'estatus' => Estatus::all('id','descripcion'),
         ]);
     }
 
@@ -78,7 +91,14 @@ class ActividadController extends Controller
      */
     public function update(Request $request, Actividad $actividad)
     {
-        //
+        $validated = $request->validate([
+            'descripcion' => 'required|string|max:191',
+            'estatus_id' => 'exists:estatus,id| required',
+            'valor' => Rule::in([0.5,1.0, 1.5,2.0]),
+        ]);
+
+        $actividad->update($validated);
+        return Redirect::route('actividad.index'); 
     }
 
     /**
@@ -89,6 +109,6 @@ class ActividadController extends Controller
      */
     public function destroy(Actividad $actividad)
     {
-        //
+        $actividad->delete();
     }
 }

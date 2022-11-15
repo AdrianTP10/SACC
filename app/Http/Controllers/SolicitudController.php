@@ -11,6 +11,7 @@ use App\Models\EstatusSolicitud;
 use App\Models\Periodo;
 use App\Models\Personal;
 use Inertia\Inertia;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 
 class SolicitudController extends Controller
@@ -63,7 +64,7 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-       /*  $alumno = Alumno::where('no_control', '=',  $request->no_control)->firstOrFail(); */
+    
         $request->validate([
             'actividad_id' => 'exists:actividades,id| required',
             'periodo_id' => 'exists:periodos,id| required',
@@ -72,20 +73,20 @@ class SolicitudController extends Controller
             'estatus_id' => 'exists:estatus_solicitud,id| required',
             'responsable_id' => 'exists:personal,id| required',
             'calificacion' => 'required|integer|numeric',
-            'valor' => 'required||numeric|min:0.5|max:2.0',
+            'valor' => Rule::in([0.5,1.0, 1.5,2.0]),
         ]);
+        $alumno = Alumno::where('no_control', '=',  $request->no_control)->firstOrFail();  
 
-        $infoSolicitud = [
-            'actividad_id' => $request->actividad_id,
-            'periodo_id' => $request->periodo_id,
-            'departamento_id' => $request->periodo_id,
-            /* 'alumno_id' => $alumno->id, */
-            'estatus_id' => $request->estatus_id,
-            'responsable_id' => $request->responsable_id,
-            'calificacion' => $request->calificacion,
-            'valor' => $request->valor,
-        ];
-        /* Solicitud::create($infoSolicitud); */
+        $solicitud = new Solicitud;
+        $solicitud->actividad_id = $request->actividad_id;
+        $solicitud->periodo_id = $request->periodo_id;
+        $solicitud->departamento_id = $request->departamento_id;
+        $solicitud->alumno_id = $alumno->id;
+        $solicitud->estatus_id = $request->estatus_id;
+        $solicitud->responsable_id = $request->responsable_id;
+        $solicitud->calificacion = $request->calificacion;
+        $solicitud->valor = $request->valor;
+        $solicitud->save();
 
         return Redirect::route('solicitud.index')->with('success', 'Solicitud Creada.');
     }

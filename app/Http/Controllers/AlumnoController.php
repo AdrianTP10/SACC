@@ -61,12 +61,11 @@ class AlumnoController extends Controller
             'apellido' => 'required|string|max:191',
             'no_control' => 'required|integer|numeric|max_digits:8',
             'semestre' => 'required|integer|numeric|min:1|max:12',
-            'carrera_id' => 'required|integer|numeric',
-            'estatus_id' => 'required|integer|numeric',
+            'carrera_id' => 'required|exists:carreras,id',
+            'estatus_id' => 'required|exists:estatus,id',
         ]);
         Alumno::create($validated);
-        //return Redirect::route('alumnos.index')->with('success', 'Alumno Creado.');
-        return Redirect::route('alumnos.index');
+        return Redirect::route('alumno.index');
     }
 
     /**
@@ -111,13 +110,12 @@ class AlumnoController extends Controller
             'apellido' => 'required|string|max:191',
             'no_control' => 'required|integer|numeric|max_digits:8',
             'semestre' => 'required|integer|numeric|min:1|max:12',
-            'carrera_id' => 'required|integer|numeric',
-            'estatus_id' => 'required|integer|numeric',
+            'carrera_id' => 'required|exists:carreras,id',
+            'estatus_id' => 'required|exists:estatus,id',
         ]);
-        //$estatus = Estatus::findOrFail($request->estatus);
 
         $alumno->update($validated);
-        return Redirect::route('alumnos.index'); 
+        return Redirect::route('alumno.index'); 
         //$request->user()->personal()->create($validated);
     }
 
