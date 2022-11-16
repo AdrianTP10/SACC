@@ -7,6 +7,7 @@ use App\Http\Controllers\SolicitudController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -45,7 +46,12 @@ Route::resource('solicitud', SolicitudController::class)
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard',[
+        'can' =>[
+            'personal_index' => Auth::user()->can('personal.index'),
+            'solicitud_index' => Auth::user()->can('solicitud.index'),
+        ]
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

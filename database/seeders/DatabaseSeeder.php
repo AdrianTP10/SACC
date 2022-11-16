@@ -16,11 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+       
         $this->call([
+            RoleSeeder::class,
             PersonalSeeder::class,
             EstatusSeeder::class,
             EstatusSolicitudSeeder::class,
@@ -29,5 +27,12 @@ class DatabaseSeeder extends Seeder
             AlumnoSeeder::class,
             DepartamentosSeeder::class,
         ]);
+
+        $alumno = \App\Models\User::create([
+            'name' => 'Irving',
+            'email' => 'adriantp098@gmail.com',
+            'password' => bcrypt('password'),
+        ]);
+        $alumno->assignRole('alumno');
     }
 }

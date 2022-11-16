@@ -13,6 +13,7 @@ export default function Dashboard(props) {
                     Dashboard
                 </h2>
             }
+            can={props.can}
         >
             <Head title="Dashboard" />
 
@@ -24,6 +25,7 @@ export default function Dashboard(props) {
                     Commodi, esse optio est reprehenderit ex consequuntur.
                     Voluptatum perferendis adipisci magnam vel, sed voluptates,
                     sequi, corporis atque vero recusandae autem unde deserunt!
+                    
                 </p>
             </div>
             {/* <div className="py-12">
