@@ -2,6 +2,7 @@ import React from "react";
 import NavLink from "@/Components/NavLink";
 
 function SideBar({auth, can}) {
+   
    return (
 
       <div className="hidden sm:flex flex-col items-center w-45 flex-shrink-0 overflow-y-auto text-gray-700 bg-gray-200">
@@ -21,6 +22,7 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("dashboard")}
                   active={route().current("dashboard")}
+                  
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -46,6 +48,11 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("personal.index")}
                   active={route().current("personal.index")}
+                  /* className={
+                     can.personal_index
+                        ? "flex"
+                        : "hidden"
+                  } */
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -69,6 +76,11 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("actividad.index")}
                   active={route().current("actividad.index")}
+                  /* className={
+                     can.actividad_index
+                        ? "flex"
+                        : "hidden"
+                  } */
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -93,6 +105,11 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("solicitud.index")}
                   active={route().current("solcitud.index")}
+                  /* className={
+                     can.solicitud_index
+                        ? "flex"
+                        : "hidden"
+                  } */
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -116,6 +133,11 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("alumno.index")}
                   active={route().current("alumno.index")}
+                  /* className={
+                     can.alumno_index
+                        ? "flex"
+                        : "hidden"
+                  } */
                >
                   <svg
                      className="w-6 h-6 stroke-current"

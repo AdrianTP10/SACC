@@ -11,7 +11,8 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function Index({ auth, solicitudes }) {
+function Index({ auth, solicitudes, can }) {
+   console.log(can)
    const [globalFilter, setGlobalFilter] = useState(null);
 
    const header = (
@@ -69,13 +70,23 @@ function Index({ auth, solicitudes }) {
    const actionBodyTemplate = (rowData) => {
       return (
          <React.Fragment>
-            <Link href={route("solicitud.edit",rowData.id)} method="get" as="button">
-               <span className="bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
+            <Link href={route("solicitud.edit",rowData.id)} method="get" as="button"
+               /* className={can.solicitud_edit
+                  ? "flex"
+                  : "hidden"
+               } */
+            >
+               <span className=  "bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
                   <i className="pi pi-pencil"></i>
                </span>
             </Link>
 
-            <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button">
+            <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button"
+               /* className={can.solicitud_destroy
+                  ? "flex"
+                  : "hidden"
+               } */
+            >
                <span className="bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3">
                   <i className="pi pi-trash"></i>
                </span>
@@ -89,6 +100,7 @@ function Index({ auth, solicitudes }) {
       <TestLayout
          auth={auth}
          header={<h1 className="mb-8 text-3xl font-bold">Solicitudes</h1>}
+         can ={can}
       >
          <Head title="Solicitudes" />
 
@@ -105,6 +117,7 @@ function Index({ auth, solicitudes }) {
             <Column field="responsable" header="Responsable"></Column>
             
             <Column field="estatus" header="Estatus" body={statusBodyTemplate} sortable></Column>
+            
             <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: "6rem" }}></Column>
          </DataTable>
       </TestLayout>

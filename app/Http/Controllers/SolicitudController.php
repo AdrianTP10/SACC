@@ -10,6 +10,7 @@ use App\Models\Departamento;
 use App\Models\EstatusSolicitud;
 use App\Models\Periodo;
 use App\Models\Personal;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
@@ -36,6 +37,13 @@ class SolicitudController extends Controller
                     'responsable' => $solicitud->responsable->nombre . $solicitud->responsable->apellido,
                 ];
             }),
+            /* 'can' => Auth::user()->permissions(), */
+            'can' =>[
+                'solicitud_index' => Auth::user()->can('solicitud.index'),
+                'solicitud_edit' => Auth::user()->can('solicitud.edit'),
+                'solicitud_create' => Auth::user()->can('solicitud.create'),
+            ] 
+
             //'actividades' => Solicitud::all('descripcion','valor_curricular','estatus_id')->toArray()
         ]);
     }
