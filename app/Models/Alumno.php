@@ -32,4 +32,10 @@ class Alumno extends Model
     public function solicitudes(){
         return $this->hasMany(Solicitud::class);
     }
+    
+    //Relacion Uno a Uno inversa
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

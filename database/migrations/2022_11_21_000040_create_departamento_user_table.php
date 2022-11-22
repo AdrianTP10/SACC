@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('personal', function (Blueprint $table) {
+       /*  Schema::create('departamento_user', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('apellido');
-            $table->string('rfc',13);
             $table->timestamps();
-        });
+            $table->foreignId('departamento_id')->references('id')->on('departamentos')->cascadeOnDelete();;
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();;
+        }); */
     }
 
     /**
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal');
+        Schema::dropIfExists('departamento_user');
     }
 };

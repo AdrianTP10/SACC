@@ -13,7 +13,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function Index({ auth, personal}) {
+function Index({ auth,can,personal}) {
     const [globalFilter, setGlobalFilter] = useState(null);
 
     const header = (

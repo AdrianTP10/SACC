@@ -43,4 +43,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    //Relacion Uno a Uno
+    public function perfil_alumno(){
+        return $this->hasOne(Alumno::class);
+    }
+
+    //Relacion Uno a Uno
+    public function perfil_personal(){
+        return $this->hasOne(Personal::class);
+    }
+
 }

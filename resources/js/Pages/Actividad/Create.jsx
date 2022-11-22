@@ -7,11 +7,12 @@ import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Create({auth, estatus}) {
+function Create({auth, estatus, departamentos}) {
   const { data, setData, post, proccesing, reset, errors } = useForm({
     descripcion: '',
     valor: '',
     estatus_id: '',
+    departamento_id: '',
    });
 
    const submit = (e) => {
@@ -25,6 +26,10 @@ function Create({auth, estatus}) {
       statusSelectItems.push({label: registro.descripcion, value: registro.id})
    })
 
+   const departmentSelectItems = [];
+   departamentos.map((registro) =>{
+      departmentSelectItems.push({label: registro.nombre, value: registro.id})
+   })
  
    return (
       <TestLayout 
@@ -61,9 +66,17 @@ function Create({auth, estatus}) {
                   options={statusSelectItems}
                   onChange={(e) => setData("estatus_id", e.value)}
                   className='w-full'
-                  
                />
                <InputError message={errors.estatus_id} className="mt-2" />
+
+               <InputLabel forInput={data.departamento_id}>Departamento</InputLabel>
+                 <Dropdown
+                    value={data.departamento_id}
+                    options={departmentSelectItems}
+                    onChange={(e) => setData("departamento_id", e.value)}
+                    className='w-full' 
+                 />
+                 <InputError message={errors.departamento_id} className="mt-2" />
 
                <InputLabel forInput={data.valor}>Valor</InputLabel>
                <input
@@ -84,7 +97,7 @@ function Create({auth, estatus}) {
                  className="mt-4 text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg mr-2 mb-2"
                  disabled={proccesing}
                >
-                  Registrar Alumno
+                  Registrar Actividad
                </PrimaryButton>
             </form>
          </div>

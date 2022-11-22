@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\Redirect;
 
 class AlumnoController extends Controller
 {
+
+    public function __construct()
+    {
+        /* $this->middleware('can:alumno.index')->only('index');
+        $this->middleware('can:alumno.create')->only('create','store');
+        $this->middleware('can:alumno.edit')->only('edit','update');
+        $this->middleware('can:alumno.destroy')->only('destroy'); */
+    }
+
      /**
      * Display a listing of the resource.
      *

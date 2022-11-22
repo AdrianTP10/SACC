@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('departamentos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->timestamps();
+        Schema::table('departamentos', function (Blueprint $table) {
+            $table->foreignId('jefe_id')->references('id')->on('personal');
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departamentos');
+        Schema::table('departamentos', function (Blueprint $table) {
+            //
+        });
     }
 };

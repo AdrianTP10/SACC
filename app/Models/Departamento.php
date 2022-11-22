@@ -11,7 +11,21 @@ class Departamento extends Model
 
     protected $table = "departamentos";
 
+    protected $fillable = [
+        'nombre',
+        'jefe_id',
+    ];
+
     public function solicitudes(){
         return $this->hasMany(Solicitud::class);
+    }
+
+    public function jefe(){
+        return $this->belongsTo(Personal::class, 'jefe_id');
+    }
+
+
+    public function personal(){
+        return $this->hasMany(Personal::class);
     }
 }

@@ -14,11 +14,19 @@ class Personal extends Model
         'nombre',
         'apellido',
         'rfc',
+        'departamento_id',
+        'user_id'
     ];
 
     
 
     public function solicitudes(){
         return $this->hasMany(Solicitud::class);
+    }
+
+    //Relacion Uno a Uno inversa
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -19,7 +19,7 @@ class EstatusSolicitudSeeder extends Seeder
     {
         $data = [
             [
-                'descripcion' => 'Nuevo'
+                'descripcion' => 'Registrado'
             ],
 
             [

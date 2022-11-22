@@ -2,9 +2,7 @@ import React from "react";
 import NavLink from "@/Components/NavLink";
 
 function SideBar({auth, can}) {
-   
    return (
-
       <div className="hidden sm:flex flex-col items-center w-45 flex-shrink-0 overflow-y-auto text-gray-700 bg-gray-200">
          {/* <a className="flex items-center w-full px-3 mt-3" href="#">
                         <svg
@@ -22,7 +20,7 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("dashboard")}
                   active={route().current("dashboard")}
-                  
+                  className='flex'
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -48,11 +46,11 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("personal.index")}
                   active={route().current("personal.index")}
-                  /* className={
+                  className={
                      can.personal_index
                         ? "flex"
                         : "hidden"
-                  } */
+                  }
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -76,11 +74,11 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("actividad.index")}
                   active={route().current("actividad.index")}
-                  /* className={
+                  className={
                      can.actividad_index
                         ? "flex"
                         : "hidden"
-                  } */
+                  }
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -104,12 +102,12 @@ function SideBar({auth, can}) {
                
                <NavLink
                   href={route("solicitud.index")}
-                  active={route().current("solcitud.index")}
-                  /* className={
+                  active={route().current("solicitud.index")}
+                  className={
                      can.solicitud_index
                         ? "flex"
                         : "hidden"
-                  } */
+                  } 
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -133,11 +131,11 @@ function SideBar({auth, can}) {
                <NavLink
                   href={route("alumno.index")}
                   active={route().current("alumno.index")}
-                  /* className={
+                  className={
                      can.alumno_index
                         ? "flex"
                         : "hidden"
-                  } */
+                  }
                >
                   <svg
                      className="w-6 h-6 stroke-current"
@@ -157,76 +155,194 @@ function SideBar({auth, can}) {
                      Alumnos
                   </span>
                </NavLink>
+
+               <NavLink
+                  href={route("departamento.index")}
+                  active={route().current("departamento.index")}
+                  className={
+                     can.departamento_index
+                        ? "flex"
+                        : "hidden"
+                  } 
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+                     />
+                  </svg>
+                  <span className="ml-2 text-base font-medium">
+                     Departamentos
+                  </span>
+               </NavLink>
+
+               <NavLink
+                  href={route("periodo.index")}
+                  active={route().current("periodo.index")}
+                  className={
+                     can.periodo_index
+                        ? "flex"
+                        : "hidden"
+                  } 
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                     />
+                  </svg>
+                  <span className="ml-2 text-base font-medium">
+                     Periodos
+                  </span>
+               </NavLink>
+
+               <NavLink
+                  href={route("alumno.solicitudes")}
+                  active={route().current("alumno.solicitudes")}
+                  className={
+                     can.solicitud_show
+                        ? "flex"
+                        : "hidden"
+                  }
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                     />
+                  </svg>
+                  <span className="ml-2 text-base font-medium">
+                     Mis Solicitudes
+                  </span>
+               </NavLink>
+
+               <NavLink
+                  href={route("alumno.creditos")}
+                  active={route().current("alumno.creditos")}
+                  className={
+                     can.solicitud_show
+                        ? "flex"
+                        : "hidden"
+                  }
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                     />
+                  </svg>
+                  <span className="ml-2 text-base font-medium">
+                     Mis Creditos
+                  </span>
+               </NavLink>
             </div>
 
             <div className="flex flex-col items-center w-full mt-2 border-t border-gray-300">
-                    <a
-                        className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-300"
-                        href="#"
-                    >
-                        <svg
-                            className="w-6 h-6 stroke-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                            />
-                        </svg>
-                        <span className="ml-2 text-base font-medium">
-                            Periodos
-                        </span>
-                    </a>
-                    <a
-                        className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-300"
-                        href="#"
-                    >
-                        <svg
-                            className="w-6 h-6 stroke-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                            />
-                        </svg>
+               <NavLink
+                  href={route("usuario.index")}
+                  active={route().current("usuario.index")}
+                  className={
+                     can.periodo_index
+                        ? "flex"
+                        : "hidden"
+                  }
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                     />
+                  </svg>
+                  <span className="ml-2 text-base font-medium">
+                     Usuarios
+                  </span>
+               </NavLink>
+               
+               <a
+                  className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-300"
+                  href="#"
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                     />
+                  </svg>
                         <span className="ml-2 text-base font-medium">
                             Settings
                         </span>
-                    </a>
-                    <a
-                        className="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-300"
-                        href="#"
-                    >
-                        <svg
-                            className="w-6 h-6 stroke-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-                            />
-                        </svg>
+               </a>
+               <a
+                  className="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-300"
+                  href="#"
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                     />
+                  </svg>
                         <span className="ml-2 text-base font-medium">
                             Messages
                         </span>
                         <span className="absolute top-0 left-0 w-2 h-2 mt-2 ml-2 bg-indigo-500 rounded-full"></span>
-                    </a>
+               </a>
             </div>
          </div>
       </div>

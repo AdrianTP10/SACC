@@ -14,8 +14,8 @@ class Actividad extends Model
 
     protected $fillable = [
         'descripcion',
-        'valor_curricular',
         'estatus_id',
+        'departamento_id',
         'valor',
     ];
 
@@ -24,6 +24,10 @@ class Actividad extends Model
 
     public function estatus(){
         return $this->belongsTo(Estatus::class, 'estatus_id');
+    }
+
+    public function departamento(){
+        return $this->belongsTo(Departamento::class, 'departamento_id');
     }
 
     public function solicitudes(){

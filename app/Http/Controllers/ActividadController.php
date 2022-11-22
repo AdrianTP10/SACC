@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Actividad;
 use App\Models\Estatus;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
@@ -20,15 +21,23 @@ class ActividadController extends Controller
     {
         return Inertia::render('Actividad/Index',[
             'actividades' => Actividad::all()->map(function ($actividad) {
-
                 return [
                     'id' => $actividad->id,
                     'descripcion' => $actividad->descripcion,
+                    'departamento' => $actividad->departamento->nombre,
                     'valor_curricular' => $actividad->valor,
                     'estatus' => $actividad->estatus->descripcion,
                 ];
             }),
-            //'actividades' => Actividad::all('descripcion','valor_curricular','estatus_id')->toArray()
+            'can' =>[
+                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
+                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+            ]
         ]);
     }
 
@@ -41,6 +50,16 @@ class ActividadController extends Controller
     {
         return Inertia::render('Actividad/Create',[
             'estatus' => Estatus::all('id','descripcion'),
+            'departamentos' => Departamento::all('id','nombre'),
+            'can' =>[
+                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
+                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+            ]
         ]);
     }
 
@@ -55,6 +74,7 @@ class ActividadController extends Controller
         $validated = $request->validate([
             'descripcion' => 'required|string|max:191',
             'estatus_id' => 'exists:estatus,id| required',
+            'departamento_id' => 'exists:departamentos,id| required',
             'valor' => Rule::in([0.5,1.0, 1.5,2.0]),
         ]);
         Actividad::create($validated);
@@ -76,9 +96,20 @@ class ActividadController extends Controller
                 'id' => $dato->id,
                 'descripcion' => $dato->descripcion,
                 'estatus_id' => $dato->estatus_id,
+                'departamento_id' => $dato->departamento->id,
                 'valor' => $dato->valor
             ],
             'estatus' => Estatus::all('id','descripcion'),
+            'departamentos' => Departamento::all('id','nombre'),
+            'can' =>[
+                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
+                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+            ]
         ]);
     }
 
@@ -94,6 +125,7 @@ class ActividadController extends Controller
         $validated = $request->validate([
             'descripcion' => 'required|string|max:191',
             'estatus_id' => 'exists:estatus,id| required',
+            'departamento_id' => 'exists:departamentos,id| required',
             'valor' => Rule::in([0.5,1.0, 1.5,2.0]),
         ]);
 

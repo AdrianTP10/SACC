@@ -7,11 +7,12 @@ import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Edit({auth, actividad, estatus}) {
+function Edit({auth, actividad, estatus, departamentos}) {
    const { data, setData, patch, proccesing, reset, errors } = useForm({
       descripcion: actividad.descripcion,
       valor: actividad.valor,
       estatus_id: actividad.estatus_id,
+      departamento_id:actividad.departamento_id,
    });
   
       const submit = (e) => {
@@ -20,12 +21,16 @@ function Edit({auth, actividad, estatus}) {
         patch(route("actividad.update",actividad.id), { onSucces: () => reset() });
      };
   
-     const statusSelectItems = [];
-     estatus.map((registro) =>{
+      const statusSelectItems = [];
+      estatus.map((registro) =>{
         statusSelectItems.push({label: registro.descripcion, value: registro.id})
-     })
+      })
+
+      const departmentSelectItems = [];
+      departamentos.map((registro) =>{
+         departmentSelectItems.push({label: registro.nombre, value: registro.id})
+      })
   
-   
      return (
         <TestLayout 
            auth={auth} 
@@ -60,11 +65,19 @@ function Edit({auth, actividad, estatus}) {
                     value={data.estatus_id}
                     options={statusSelectItems}
                     onChange={(e) => setData("estatus_id", e.value)}
-                    className='w-full'
-                    
+                    className='w-full' 
                  />
                  <InputError message={errors.estatus_id} className="mt-2" />
-  
+
+                 <InputLabel forInput={data.departamento_id}>Departamento</InputLabel>
+                 <Dropdown
+                    value={data.departamento_id}
+                    options={departmentSelectItems}
+                    onChange={(e) => setData("departamento_id", e.value)}
+                    className='w-full' 
+                 />
+                 <InputError message={errors.departamento_id} className="mt-2" />
+
                  <InputLabel forInput={data.valor}>Valor</InputLabel>
                  <input
                     value={data.valor}

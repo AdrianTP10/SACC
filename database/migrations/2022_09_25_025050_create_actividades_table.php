@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('descripcion');
             $table->float('valor', 2, 1);
+            $table->foreignId('departamento_id')->references('id')->on('departamentos');
             $table->foreignId('estatus_id')->references('id')->on('estatus');
             $table->timestamps();
         });

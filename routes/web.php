@@ -4,11 +4,13 @@ use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\PeriodoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-
+use Spatie\Permission\Traits\HasPermissions;
 
 
 /* Route::get('/', function () {
@@ -41,6 +43,27 @@ Route::resource('alumno', AlumnoController::class)
 ->middleware(['auth']);
 
 Route::resource('solicitud', SolicitudController::class)
+->only(['index','indexDepartamento','misCreditos','store','update','create','edit','destroy','show'])
+->middleware(['auth']);
+
+Route::get('/mis-solicitudes', [SolicitudController::class,'indexAlumno'])->name('alumno.solicitudes')
+->middleware(['auth']);
+
+Route::get('/mis-creditos', [SolicitudController::class,'misCreditos'])->name('alumno.creditos')
+->middleware(['auth']);
+
+/* Route::get('/mis-creditos', [SolicitudController::class,'misCreditos'])->name('misSolicitudes')
+->middleware(['auth']); */
+
+Route::resource('periodo', PeriodoController::class)
+->only(['index','store','update','create','edit','destroy'])
+->middleware(['auth']);
+
+Route::resource('departamento', DepartamentoController::class)
+->only(['index','store','update','create','edit','destroy'])
+->middleware(['auth']);
+
+Route::resource('usuario', UsuarioController::class)
 ->only(['index','store','update','create','edit','destroy'])
 ->middleware(['auth']);
 
@@ -48,8 +71,14 @@ Route::resource('solicitud', SolicitudController::class)
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard',[
         'can' =>[
-            'personal_index' => Auth::user()->can('personal.index'),
-            'solicitud_index' => Auth::user()->can('solicitud.index'),
+            'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+            'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+            'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
+            'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+            'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+            'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+            'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+           /*  auth()->user->can() */
         ]
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');

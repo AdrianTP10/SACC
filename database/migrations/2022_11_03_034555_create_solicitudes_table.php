@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('actividad_id')->references('id')->on('actividades');
             $table->foreignId('periodo_id')->references('id')->on('periodos');
             $table->foreignId('departamento_id')->references('id')->on('departamentos');
-            $table->foreignId('responsable_id')->references('id')->on('personal');
+            $table->foreignId('responsable_id')->nullable()->references('id')->on('personal');
             $table->foreignId('estatus_id')->references('id')->on('estatus_solicitud');
             $table->float('valor', 2, 1);
             $table->integer('calificacion');

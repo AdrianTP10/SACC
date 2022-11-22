@@ -7,9 +7,10 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
 
 export default function Authenticated({ auth, header, children, can }) {
+    console.log(can)
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen max-h-screen overflow-hidden">
             {/* Barra superior */}
             <nav className="min-w-full   bg-sky-600 ">
                 <div className="  w-full px-4 sm:px-6 ">
@@ -162,16 +163,18 @@ export default function Authenticated({ auth, header, children, can }) {
                 </div>
             </nav>
 
-            <div className="flex flex-grow overflow-hidden">
+            <div className="flex flex-grow ">
                 
                 {/* Menu lateral*/}
                 <SideBar
                     //permisos
                     can={can}
+                    auth={auth}
                 />
 
                 <main
-                    className="flex-1 px-4 py-8 md:p-12 md:overflow-y-auto bg-gray-50"
+                    className="flex-1 px-4 py-8 md:p-12 overflow-y-auto bg-gray-50 max-h-screen" 
+                    
                 >
                     {header && (
                         <header> {header}</header>

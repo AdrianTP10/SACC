@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/inertia-react';
 import InputLabel from '@/Components/InputLabel';
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Create({ auth }) {
+function Create({ auth,can}) {
     const { data, setData, post, proccesing, reset, errors } = useForm({
         nombre: "",
         apellido: "",
@@ -23,7 +23,7 @@ function Create({ auth }) {
             header={
                 <h1 className="mb-8 text-3xl font-bold">
                    <Link
-                    href={route('alumno.index')}
+                    href={route('personal.index')}
                     className="text-indigo-600 hover:text-indigo-700"
                    >
                       Personal
