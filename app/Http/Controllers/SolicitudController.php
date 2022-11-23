@@ -174,6 +174,36 @@ class SolicitudController extends Controller
                 
             ]);
         }
+        if(Auth::user()->hasRole('departamento')){
+            return Inertia::render('Solicitud/AdminCreate',[
+                'estatus' => EstatusSolicitud::all('id','descripcion'),
+                'personal' =>Auth::user()->perfil_personal->nombre,
+                'periodos' => Periodo::all('id', 'descripcion'),
+                'departamentos' => Departamento::all('id', 'nombre'),
+                'actividades' => Auth::user()->perfil_personal->departamento->actividades->map(function ($actividad) {
+                   return[
+                    'id' => $actividad->id,
+                    'descripcion' => $actividad->descripcion,
+                    'departamento' => $actividad->departamento->nombre,
+                    'valor' => $actividad->valor,
+                   ];
+                }),
+    
+                'can' =>[
+                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                    'solicitud_create' => Auth::user()->hasPermissionTo('solicitud.create'),
+                    'solicitud_edit' => Auth::user()->hasPermissionTo('solicitud.edit'),
+                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+                ]
+            ]);
+        }
+
+
+        //Crear Solicitud Rol -> Alumno
         return Inertia::render('Solicitud/Create',[
             'periodos' => Periodo::all('id', 'descripcion'),
             'actividades' => Actividad::all()->map(function ($actividad){

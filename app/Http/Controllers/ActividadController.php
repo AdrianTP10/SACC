@@ -19,6 +19,32 @@ class ActividadController extends Controller
      */
     public function index()
     {
+        //Muestra la Lista de Actividades de un Departamento
+        if(Auth::user()->hasRole('departamento')){
+            return Inertia::render('Actividad/Index',[
+                'actividades' => Auth::user()->perfil_personal->departamento->actividades->map(function ($actividad) {
+                    return [
+                        'id' => $actividad->id,
+                        'descripcion' => $actividad->descripcion,
+                        'departamento' => $actividad->departamento->nombre,
+                        'valor_curricular' => $actividad->valor,
+                        'estatus' => $actividad->estatus->descripcion,
+                    ];
+                }),
+        
+                'can' =>[
+                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                    'actividad_edit' => Auth::user()->hasPermissionTo('actividad.edit'),
+                    'actividad_create' => Auth::user()->hasPermissionTo('actividad.create'),
+                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+                ]
+           ]);
+        }
+
         return Inertia::render('Actividad/Index',[
             'actividades' => Actividad::all()->map(function ($actividad) {
                 return [
@@ -34,6 +60,7 @@ class ActividadController extends Controller
                 'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
                 'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
                 'actividad_edit' => Auth::user()->hasPermissionTo('actividad.edit'),
+                'actividad_create' => Auth::user()->hasPermissionTo('actividad.create'),
                 'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
                 'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
                 'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),

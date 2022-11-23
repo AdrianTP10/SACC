@@ -29,10 +29,10 @@ function Create({auth, can, estatus, personal, actividades, periodos}) {
     statusSelectItems.push({label: registro.descripcion, value: registro.id})
   })
   //Lista de estatus para seleccionar
-  const personalSelectItems = [];
+  /* const personalSelectItems = [];
   personal.map((registro) =>{
     personalSelectItems.push({label: (registro.nombre +' '+registro.apellido), value: registro.id})
-  })
+  }) */
     
    //Lista de estatus para seleccionar
   const actividadSelectItems = [];

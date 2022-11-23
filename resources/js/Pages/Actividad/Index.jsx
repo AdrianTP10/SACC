@@ -93,13 +93,12 @@ function Index({ auth, actividades, can}) {
                globalFilter={globalFilter} header={header}
                paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                size="small" stripedRows  resizableColumns columnResizeMode="fit"
-               
+               size="small" stripedRows  resizableColumns columnResizeMode="fit" 
             >
-              <Column field="descripcion" header="Actividad" sortable style={{width:'40%'}}></Column>
-               <Column field="departamento" header="Departamento" sortable></Column>
-               <Column field="valor_curricular" header="Valor" sortable style={{width:'10%'}}></Column>
-               <Column field="estatus" header="Estatus" sortable></Column>
+              <Column field="descripcion" header="Actividad" sortable style={{width:'35%'}}></Column>
+               <Column field="departamento" header="Departamento" sortable style={{width:'30%'}}></Column>
+               <Column field="valor_curricular" header="Valor" sortable style={{width:'5%'}}></Column>
+               <Column field="estatus" header="Estatus" sortable style={{width:'5%'}}></Column>
                <Column body={can.actividad_edit ? actionBodyTemplate : null} exportable={false} style={{width:'10%'}}></Column>    
             </DataTable>
         </TestLayout>

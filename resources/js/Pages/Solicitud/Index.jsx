@@ -12,7 +12,6 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
 function Index({ auth, can, solicitudes }) {
-   console.log(can)
    const [globalFilter, setGlobalFilter] = useState(null);
 
    const header = (
