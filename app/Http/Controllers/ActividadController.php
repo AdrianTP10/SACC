@@ -32,8 +32,8 @@ class ActividadController extends Controller
             'can' =>[
                 'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
                 'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
                 'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                'actividad_edit' => Auth::user()->hasPermissionTo('actividad.edit'),
                 'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
                 'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
                 'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),

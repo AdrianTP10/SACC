@@ -7,7 +7,6 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
 
 export default function Authenticated({ auth, header, children, can }) {
-    console.log(can)
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     return (
         <div className="flex flex-col min-h-screen max-h-screen overflow-hidden">

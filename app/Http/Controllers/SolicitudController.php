@@ -58,22 +58,21 @@ class SolicitudController extends Controller
     public function indexDepartamento(){
         if(Auth::user()->hasRole('departamento')){
             return Inertia::render('Solicitud/Index',[
-                'solicitudes' => Solicitud::where('departamento_id', Auth::user()->departamento->id)->get()->map(function ($solicitud) {
+                'solicitudes' => Auth::user()->perfil_personal->departamento->solicitudes->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
                         'actividad' => $solicitud->actividad->descripcion,
                         'periodo' => $solicitud->periodo->descripcion,
-                        'departamento' => $solicitud->departamento->nombre,
+                        'departamento' => $solicitud->actividad->departamento->nombre,
                         'alumno' => $solicitud->alumno->nombre . $solicitud->alumno->appelido,
                         'alumno_ncontrol' => $solicitud->alumno->no_control,
                         'estatus' => $solicitud->estatus->descripcion,
-                        'responsable' => $solicitud->responsable->nombre . $solicitud->responsable->apellido,
                     ];
                 }),
                 'can' =>[
                     'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
                     'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
+                    'solicitud_edit' => Auth::user()->hasPermissionTo('solicitud.index'),
                     'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
                     'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
                     'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
@@ -87,16 +86,15 @@ class SolicitudController extends Controller
         if(Auth::user()->hasRole('alumno')){
             //Muestra las solicitudes de un alumno
             return Inertia::render('Solicitud/MisSolicitudes',[
-                'solicitudes' => Solicitud::where('alumno_id', Auth::user()->id)->get()->map(function ($solicitud) {
+                //'solicitudes' => Solicitud::where('alumno_id', Auth::user()->id)->get()->map(function ($solicitud) {
+                'solicitudes' => Auth::user()->perfil_alumno->solicitudes->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
                         'actividad' => $solicitud->actividad->descripcion,
-                        'alumno' => $solicitud->alumno->nombre .' '.$solicitud->alumno->apellido,
-                        'alumno_ncontrol' => $solicitud->alumno->no_control,
                         'periodo' => $solicitud->periodo->descripcion,
-                        'departamento' => $solicitud->departamento->nombre,
+                        'departamento' => $solicitud->actividad->departamento->nombre,
                         'valor' => $solicitud->valor,
-                        'estatus' => $solicitud->estatus->descripcion,
+                        'estatus' => $solicitud->estatus->descripcion, 
                     ];
                 }),
                 'can' =>[
@@ -116,14 +114,14 @@ class SolicitudController extends Controller
         if(Auth::user()->hasRole('alumno')){
             //Muestra las solicitudes de un alumno
             return Inertia::render('Solicitud/MisCreditos',[
-                'solicitudes' => Solicitud::where('alumno_id', Auth::user()->id)->where('estatus_id', '=', 1)->get()->map(function ($solicitud) {
+                'solicitudes' =>  Auth::user()->perfil_alumno->solicitudes->where('estatus_id', '=', 1)->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
                         'actividad' => $solicitud->actividad->descripcion,
                         'alumno' => $solicitud->alumno->nombre .' '.$solicitud->alumno->apellido,
                         'alumno_ncontrol' => $solicitud->alumno->no_control,
                         'periodo' => $solicitud->periodo->descripcion,
-                        'departamento' => $solicitud->departamento->nombre,
+                        'departamento' => $solicitud->actividad->departamento->nombre,
                         'calificacion' => $solicitud->calificacion,
                         'valor' => $solicitud->valor,
                         'estatus' => $solicitud->estatus->descripcion,
@@ -177,7 +175,6 @@ class SolicitudController extends Controller
             ]);
         }
         return Inertia::render('Solicitud/Create',[
-            'estatus' => EstatusSolicitud::all('id','descripcion'),
             'periodos' => Periodo::all('id', 'descripcion'),
             'actividades' => Actividad::all()->map(function ($actividad){
                return[
@@ -243,14 +240,13 @@ class SolicitudController extends Controller
             'actividad_id' => 'exists:actividades,id| required',
             'periodo_id' => 'exists:periodos,id| required',
         ]);
-        $usuario = Auth::user();
+        $alumno = Auth::user()->perfil_alumno;
         $actividad = Actividad::findOrFail($request->actividad_id);
 
         $solicitud = new Solicitud;
         $solicitud->actividad_id = $request->actividad_id;
         $solicitud->periodo_id = $request->periodo_id;
-        $solicitud->alumno_id = $usuario->perfil_alumno->id;
-        $solicitud->departamento_id = $actividad->departamento_id;
+        $solicitud->alumno_id = $alumno->id;
         $solicitud->calificacion = 0;
         $solicitud->estatus_id = 1;
         $solicitud->valor = $actividad->valor;
@@ -268,25 +264,68 @@ class SolicitudController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Solicitud $solicitud)
-    {     
+    {      
+        //Editar Solicitud Rol => Departamento
+        if(Auth::user()->hasRole('departamento')){
+            return Inertia::render('Solicitud/DepartamentoEdit',[
+                'solicitud' => 
+                [
+                    'id' => $solicitud->id,
+                    'actividad_id' => $solicitud->actividad->id,
+                    'periodo_id' => $solicitud->periodo->id,
+                    'departamento_id' => $solicitud->actividad->departamento->id,
+                    'alumno' => $solicitud->alumno->nombre .' '. $solicitud->alumno->apellido,
+                    'no_control' => $solicitud->alumno->no_control,
+                    'estatus_id' => $solicitud->estatus->id,
+                    'responsable' => Auth::user()->perfil_personal->nombre .' '.Auth::user()->perfil_personal->apellido ,
+                    'calificacion' => $solicitud->calificacion,
+                    'valor' => $solicitud->valor,
+                ],
+                'estatus' => EstatusSolicitud::all('id','descripcion'),
+                'personal' => Personal::all('id', 'nombre','apellido'),
+               
+                'actividades' => Auth::user()->perfil_personal->departamento->actividades,
+                'periodos' => Periodo::all('id', 'descripcion'),
+                'can' =>[
+                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                    'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
+                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+                ]
+            ]);
+        }
+
+
         return Inertia::render('Solicitud/Edit',[
             'solicitud' => 
             [
                 'id' => $solicitud->id,
                 'actividad_id' => $solicitud->actividad->id,
                 'periodo_id' => $solicitud->periodo->id,
-                'departamento_id' => $solicitud->departamento->id,
-                'no_control' => $solicitud->alumno->no_control,
+                'departamento_id' => $solicitud->actividad->departamento->id,
+                //'no_control' => $solicitud->alumno->no_control,
                 'estatus_id' => $solicitud->estatus->id,
-                'responsable_id' => $solicitud->responsable->id,
+                'responsable' => Auth::user()->perfil_personal->nombre .' '.Auth::user()->perfil_personal->apellido ,
                 'calificacion' => $solicitud->calificacion,
                 'valor' => $solicitud->valor,
             ],
             'estatus' => EstatusSolicitud::all('id','descripcion'),
             'personal' => Personal::all('id', 'nombre','apellido'),
             'actividades' => Actividad::all('id', 'descripcion'),
+            //'actividades' => Auth::user()->perfil_personal->departamento->actividades,
             'periodos' => Periodo::all('id', 'descripcion'),
-            'departamentos' => Departamento::all('id', 'nombre'),
+            'can' =>[
+                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
+                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+            ]
         ]);
     }
 

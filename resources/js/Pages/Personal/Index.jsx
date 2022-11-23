@@ -14,6 +14,7 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
 function Index({ auth,can,personal}) {
+    
     const [globalFilter, setGlobalFilter] = useState(null);
 
     const header = (
@@ -62,6 +63,7 @@ function Index({ auth,can,personal}) {
     return (
         <TestLayout 
             auth={auth}
+            can={can}
             header={
                 <h1 className="mb-8 text-3xl font-bold">
                     Personal

@@ -16,9 +16,10 @@ class Departamento extends Model
         'jefe_id',
     ];
 
-    public function solicitudes(){
+    /* public function solicitudes(){
         return $this->hasMany(Solicitud::class);
-    }
+    } */
+    
 
     public function jefe(){
         return $this->belongsTo(Personal::class, 'jefe_id');
@@ -27,5 +28,13 @@ class Departamento extends Model
 
     public function personal(){
         return $this->hasMany(Personal::class);
+    }
+
+    public function actividades(){
+        return $this->hasMany(Actividad::class);
+    }
+
+    public function solicitudes(){
+        return $this->hasManyThrough(Solicitud::class, Actividad::class);
     }
 }

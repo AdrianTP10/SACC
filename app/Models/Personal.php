@@ -24,9 +24,17 @@ class Personal extends Model
         return $this->hasMany(Solicitud::class);
     }
 
+
+
     //Relacion Uno a Uno inversa
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    //Relacion Uno a Uno inversa
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
     }
 }

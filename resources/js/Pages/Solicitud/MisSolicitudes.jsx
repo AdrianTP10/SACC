@@ -81,10 +81,8 @@ function MisSolicitudes({ auth, solicitudes, can }) {
             paginator rows={10} rowsPerPageOptions={[5, 10, 25]} paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
          >
             <Column field="actividad" header="Actividad" sortable></Column>
-            <Column field="alumno" header="Alumno"></Column>
-            <Column field="alumno_ncontrol" header="No. Control"></Column>
-            <Column field="valor" header="Valor" sortable></Column>
             <Column field="periodo" header="Periodo" sortable></Column>
+            <Column field="valor" header="Valor" sortable></Column>
             <Column field="departamento" header="Departamento" sortable></Column>
             
             <Column field="estatus" header="Estatus" body={statusBodyTemplate} sortable></Column>

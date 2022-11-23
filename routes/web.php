@@ -43,7 +43,10 @@ Route::resource('alumno', AlumnoController::class)
 ->middleware(['auth']);
 
 Route::resource('solicitud', SolicitudController::class)
-->only(['index','indexDepartamento','misCreditos','store','update','create','edit','destroy','show'])
+->only(['index','store','update','create','edit','destroy','show'])
+->middleware(['auth']);
+
+Route::get('/nuevas-solicitudes', [SolicitudController::class,'indexDepartamento'])->name('departamento.solicitudes')
 ->middleware(['auth']);
 
 Route::get('/mis-solicitudes', [SolicitudController::class,'indexAlumno'])->name('alumno.solicitudes')

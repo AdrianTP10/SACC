@@ -20,6 +20,7 @@ function Create({ auth,can}) {
     return (
         <TestLayout 
             auth={auth}
+            can={can}
             header={
                 <h1 className="mb-8 text-3xl font-bold">
                    <Link

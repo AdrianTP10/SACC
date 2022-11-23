@@ -101,8 +101,8 @@ function SideBar({auth, can}) {
 
                
                <NavLink
-                  href={route("solicitud.index")}
-                  active={route().current("solicitud.index")}
+                  href={route("departamento.solicitudes")}
+                  active={route().current("departamento.solicitudes")}
                   className={
                      can.solicitud_index
                         ? "flex"
@@ -124,7 +124,7 @@ function SideBar({auth, can}) {
                      />
                   </svg>
                   <span className="ml-2 text-base font-medium">
-                     Solicitudes
+                     Nuevas Solicitudes
                   </span>
                </NavLink>
 
