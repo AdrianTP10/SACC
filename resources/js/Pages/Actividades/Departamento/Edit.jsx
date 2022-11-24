@@ -7,12 +7,11 @@ import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Edit({auth, actividad, estatus, departamentos}) {
+function Edit({auth, can, actividad, estatus}) {
    const { data, setData, patch, proccesing, reset, errors } = useForm({
       descripcion: actividad.descripcion,
       valor: actividad.valor,
       estatus_id: actividad.estatus_id,
-      departamento_id:actividad.departamento_id,
    });
   
       const submit = (e) => {
@@ -25,15 +24,11 @@ function Edit({auth, actividad, estatus, departamentos}) {
       estatus.map((registro) =>{
         statusSelectItems.push({label: registro.descripcion, value: registro.id})
       })
-
-      const departmentSelectItems = [];
-      departamentos.map((registro) =>{
-         departmentSelectItems.push({label: registro.nombre, value: registro.id})
-      })
   
      return (
         <TestLayout 
            auth={auth} 
+           can={can}
            header={
               <h1 className="mb-8 text-3xl font-bold">
                  <Link
@@ -68,15 +63,6 @@ function Edit({auth, actividad, estatus, departamentos}) {
                     className='w-full' 
                  />
                  <InputError message={errors.estatus_id} className="mt-2" />
-
-                 <InputLabel forInput={data.departamento_id}>Departamento</InputLabel>
-                 <Dropdown
-                    value={data.departamento_id}
-                    options={departmentSelectItems}
-                    onChange={(e) => setData("departamento_id", e.value)}
-                    className='w-full' 
-                 />
-                 <InputError message={errors.departamento_id} className="mt-2" />
 
                  <InputLabel forInput={data.valor}>Valor</InputLabel>
                  <input

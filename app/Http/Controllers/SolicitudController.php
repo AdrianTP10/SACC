@@ -29,7 +29,7 @@ class SolicitudController extends Controller
     
     public function index()
     {
-        return Inertia::render('Solicitud/Index',[
+        return Inertia::render('Solicitudes/Index',[
             'solicitudes' => Solicitud::all()->map(function ($solicitud) {
                 return [
                     'id' => $solicitud->id,
@@ -57,18 +57,18 @@ class SolicitudController extends Controller
     }
     public function indexDepartamento(){
         if(Auth::user()->hasRole('departamento')){
-            return Inertia::render('Solicitud/Index',[
+            return Inertia::render('Solicitudes/Departamento/Index',[
                 'solicitudes' => Auth::user()->perfil_personal->departamento->solicitudes->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
                         'actividad' => $solicitud->actividad->descripcion,
                         'periodo' => $solicitud->periodo->descripcion,
-                        'departamento' => $solicitud->actividad->departamento->nombre,
                         'alumno' => $solicitud->alumno->nombre . $solicitud->alumno->appelido,
                         'alumno_ncontrol' => $solicitud->alumno->no_control,
                         'estatus' => $solicitud->estatus->descripcion,
                     ];
                 }),
+                'departamento' => Auth::user()->perfil_personal->departamento->nombre,
                 'can' =>[
                     'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
                     'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
@@ -85,7 +85,7 @@ class SolicitudController extends Controller
     public function indexAlumno(){
         if(Auth::user()->hasRole('alumno')){
             //Muestra las solicitudes de un alumno
-            return Inertia::render('Solicitud/MisSolicitudes',[
+            return Inertia::render('Solicitudes/Alumno/MisSolicitudes',[
                 //'solicitudes' => Solicitud::where('alumno_id', Auth::user()->id)->get()->map(function ($solicitud) {
                 'solicitudes' => Auth::user()->perfil_alumno->solicitudes->map(function ($solicitud) {
                     return [
@@ -113,7 +113,7 @@ class SolicitudController extends Controller
     public function misCreditos(){
         if(Auth::user()->hasRole('alumno')){
             //Muestra las solicitudes de un alumno
-            return Inertia::render('Solicitud/MisCreditos',[
+            return Inertia::render('Solicitudes/Alumno/MisCreditos',[
                 'solicitudes' =>  Auth::user()->perfil_alumno->solicitudes->where('estatus_id', '=', 1)->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
@@ -148,7 +148,7 @@ class SolicitudController extends Controller
     public function create()
     {   
         if(Auth::user()->hasRole('admin')){
-            return Inertia::render('Solicitud/AdminCreate',[
+            return Inertia::render('Solicitudes/AdminCreate',[
                 'estatus' => EstatusSolicitud::all('id','descripcion'),
                 'personal' => Personal::all('id', 'nombre','apellido'),
                 'periodos' => Periodo::all('id', 'descripcion'),
@@ -175,7 +175,7 @@ class SolicitudController extends Controller
             ]);
         }
         if(Auth::user()->hasRole('departamento')){
-            return Inertia::render('Solicitud/AdminCreate',[
+            return Inertia::render('Solicitudes/AdminCreate',[
                 'estatus' => EstatusSolicitud::all('id','descripcion'),
                 'personal' =>Auth::user()->perfil_personal->nombre,
                 'periodos' => Periodo::all('id', 'descripcion'),
@@ -204,7 +204,7 @@ class SolicitudController extends Controller
 
 
         //Crear Solicitud Rol -> Alumno
-        return Inertia::render('Solicitud/Create',[
+        return Inertia::render('Solicitudes/Create',[
             'periodos' => Periodo::all('id', 'descripcion'),
             'actividades' => Actividad::all()->map(function ($actividad){
                return[
@@ -297,7 +297,7 @@ class SolicitudController extends Controller
     {      
         //Editar Solicitud Rol => Departamento
         if(Auth::user()->hasRole('departamento')){
-            return Inertia::render('Solicitud/DepartamentoEdit',[
+            return Inertia::render('Solicitudes/Departamento/Edit',[
                 'solicitud' => 
                 [
                     'id' => $solicitud->id,
@@ -329,7 +329,7 @@ class SolicitudController extends Controller
         }
 
 
-        return Inertia::render('Solicitud/Edit',[
+        return Inertia::render('Solicitudes/Edit',[
             'solicitud' => 
             [
                 'id' => $solicitud->id,

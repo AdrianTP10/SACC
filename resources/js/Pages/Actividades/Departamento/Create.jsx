@@ -7,12 +7,11 @@ import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Create({auth, estatus, departamentos}) {
+function Create({auth, can, estatus}) {
   const { data, setData, post, proccesing, reset, errors } = useForm({
     descripcion: '',
     valor: '',
     estatus_id: '',
-    departamento_id: '',
    });
 
    const submit = (e) => {
@@ -25,15 +24,11 @@ function Create({auth, estatus, departamentos}) {
    estatus.map((registro) =>{
       statusSelectItems.push({label: registro.descripcion, value: registro.id})
    })
-
-   const departmentSelectItems = [];
-   departamentos.map((registro) =>{
-      departmentSelectItems.push({label: registro.nombre, value: registro.id})
-   })
  
    return (
       <TestLayout 
          auth={auth} 
+         can={can}
          header={
             <h1 className="mb-8 text-3xl font-bold">
                <Link
@@ -68,15 +63,6 @@ function Create({auth, estatus, departamentos}) {
                   className='w-full'
                />
                <InputError message={errors.estatus_id} className="mt-2" />
-
-               <InputLabel forInput={data.departamento_id}>Departamento</InputLabel>
-                 <Dropdown
-                    value={data.departamento_id}
-                    options={departmentSelectItems}
-                    onChange={(e) => setData("departamento_id", e.value)}
-                    className='w-full' 
-                 />
-                 <InputError message={errors.departamento_id} className="mt-2" />
 
                <InputLabel forInput={data.valor}>Valor</InputLabel>
                <input

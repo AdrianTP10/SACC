@@ -21,7 +21,7 @@ class ActividadController extends Controller
     {
         //Muestra la Lista de Actividades de un Departamento
         if(Auth::user()->hasRole('departamento')){
-            return Inertia::render('Actividad/Index',[
+            return Inertia::render('Actividades/Departamento/Index',[
                 'actividades' => Auth::user()->perfil_personal->departamento->actividades->map(function ($actividad) {
                     return [
                         'id' => $actividad->id,
@@ -31,6 +31,7 @@ class ActividadController extends Controller
                         'estatus' => $actividad->estatus->descripcion,
                     ];
                 }),
+                'departamento' => Auth::user()->perfil_personal->departamento->nombre,
         
                 'can' =>[
                     'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
@@ -75,6 +76,22 @@ class ActividadController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->hasRole('departamento')){
+            return Inertia::render('Actividades/Departamento/Create',[
+                'departamento' => Auth::user()->perfil_personal->departamento->nombre,
+                'estatus' => Estatus::all('id','descripcion'),
+                'can' =>[
+                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+                ]
+           ]);
+        }
+
+
         return Inertia::render('Actividad/Create',[
             'estatus' => Estatus::all('id','descripcion'),
             'departamentos' => Departamento::all('id','nombre'),
@@ -98,6 +115,20 @@ class ActividadController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->hasRole('departamento')){
+            $validated = $request->validate([
+                'descripcion' => 'required|string|max:191',
+                'estatus_id' => 'exists:estatus,id| required',
+                'valor' => Rule::in([0.5,1.0, 1.5,2.0]),
+            ]);
+            $actividad = new Actividad;
+            $actividad->descripcion = $request->descripcion;
+            $actividad->estatus_id = $request->estatus_id;
+            $actividad->valor = $request->valor;
+            $actividad->departamento_id = Auth::user()->perfil_personal->departamento->id;
+            $actividad->save();
+            return Redirect::route('actividad.index');
+        }
         $validated = $request->validate([
             'descripcion' => 'required|string|max:191',
             'estatus_id' => 'exists:estatus,id| required',
@@ -117,7 +148,28 @@ class ActividadController extends Controller
     public function edit(Actividad $actividad)
     {
         $dato = Actividad::findOrFail($actividad->id);
-        return Inertia::render('Actividad/Edit',[
+        if(Auth::user()->hasRole('departamento')){
+            return Inertia::render('Actividades/Departamento/Edit',[
+                'actividad' => 
+                [
+                    'id' => $dato->id,
+                    'descripcion' => $dato->descripcion,
+                    'estatus_id' => $dato->estatus_id,
+                    'valor' => $dato->valor
+                ],
+                'estatus' => Estatus::all('id','descripcion'),
+                'can' =>[
+                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
+                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
+                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
+                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
+                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
+                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
+                ]
+            ]);
+        }
+        
+        return Inertia::render('Actividades/Edit',[
             'actividad' => 
             [
                 'id' => $dato->id,
@@ -149,6 +201,15 @@ class ActividadController extends Controller
      */
     public function update(Request $request, Actividad $actividad)
     {
+        if(Auth::user()->hasRole('departamento')){
+            $validated = $request->validate([
+                'descripcion' => 'required|string|max:191',
+                'estatus_id' => 'exists:estatus,id| required',
+                'valor' => Rule::in([0.5,1.0, 1.5,2.0]),
+            ]);
+            $actividad->update($validated);
+            return Redirect::route('actividad.index');
+        }
         $validated = $request->validate([
             'descripcion' => 'required|string|max:191',
             'estatus_id' => 'exists:estatus,id| required',
