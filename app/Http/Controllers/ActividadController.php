@@ -32,21 +32,17 @@ class ActividadController extends Controller
                     ];
                 }),
                 'departamento' => Auth::user()->perfil_personal->departamento->nombre,
-        
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'actividad_edit' => Auth::user()->hasPermissionTo('actividad.edit'),
-                    'actividad_create' => Auth::user()->hasPermissionTo('actividad.create'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
            ]);
         }
 
-        return Inertia::render('Actividad/Index',[
+        return Inertia::render('Actividades/Index',[
             'actividades' => Actividad::all()->map(function ($actividad) {
                 return [
                     'id' => $actividad->id,
@@ -56,16 +52,13 @@ class ActividadController extends Controller
                     'estatus' => $actividad->estatus->descripcion,
                 ];
             }),
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'actividad_edit' => Auth::user()->hasPermissionTo('actividad.edit'),
-                'actividad_create' => Auth::user()->hasPermissionTo('actividad.create'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
 
@@ -80,14 +73,12 @@ class ActividadController extends Controller
             return Inertia::render('Actividades/Departamento/Create',[
                 'departamento' => Auth::user()->perfil_personal->departamento->nombre,
                 'estatus' => Estatus::all('id','descripcion'),
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
            ]);
         }
 
@@ -95,15 +86,12 @@ class ActividadController extends Controller
         return Inertia::render('Actividad/Create',[
             'estatus' => Estatus::all('id','descripcion'),
             'departamentos' => Departamento::all('id','nombre'),
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
 
@@ -158,14 +146,12 @@ class ActividadController extends Controller
                     'valor' => $dato->valor
                 ],
                 'estatus' => Estatus::all('id','descripcion'),
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
             ]);
         }
         
@@ -180,15 +166,12 @@ class ActividadController extends Controller
             ],
             'estatus' => Estatus::all('id','descripcion'),
             'departamentos' => Departamento::all('id','nombre'),
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
 

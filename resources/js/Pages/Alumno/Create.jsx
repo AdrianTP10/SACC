@@ -7,7 +7,7 @@ import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Create({auth, lista_estatus, lista_carreras}) {
+function Create({auth, lista_estatus, lista_carreras, hasRole}) {
    const { data, setData, post, proccesing, reset, errors } = useForm({
       nombre: '',
       apellido: '',
@@ -35,7 +35,8 @@ function Create({auth, lista_estatus, lista_carreras}) {
    
    return (
       <TestLayout 
-         auth={auth} 
+         auth={auth}
+         hasRole={hasRole}
          header={
             <h1 className="mb-8 text-3xl font-bold">
                <Link

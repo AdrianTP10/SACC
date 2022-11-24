@@ -35,7 +35,12 @@ class DepartamentoController extends Controller
                     'jefe' => $departamento->jefe->nombre .' '.$departamento->jefe->apellido,
                 ];
             }),
-         
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
             /* 'can' =>[
                 'solicitud_index' => Auth::user()->can('solicitud.index'),
                 'solicitud_edit' => Auth::user()->can('solicitud.edit'),
@@ -55,6 +60,11 @@ class DepartamentoController extends Controller
     {
         return Inertia::render('Departamento/Create',[
             'personal' => Personal::all('id', 'nombre','apellido'),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+            ],
         ]);
     }
 
@@ -93,6 +103,11 @@ class DepartamentoController extends Controller
 
             ],
             'personal' => Personal::all('id', 'nombre','apellido'),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+            ],
         ]);
 
     }

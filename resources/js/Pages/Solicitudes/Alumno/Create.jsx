@@ -7,15 +7,10 @@ import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Create({auth, hasRole, estatus, personal, actividades, periodos}) {
+function Create({auth, hasRole, actividades, periodos}) {
   const { data, setData, post, proccesing, reset, errors } = useForm({
     actividad_id: '',
     periodo_id: '',
-    no_control: '',
-    estatus_id: '',
-    responsable_id: '',
-    calificacion: '',
-    valor: '',
   });
   
   const submit = (e) => {
@@ -23,17 +18,7 @@ function Create({auth, hasRole, estatus, personal, actividades, periodos}) {
     post(route("solicitud.store"), { onSucces: () => reset() });
   };
   
-  //Lista de estatus para seleccionar
-  const statusSelectItems = [];
-  estatus.map((registro) =>{
-    statusSelectItems.push({label: registro.descripcion, value: registro.id})
-  })
-  //Lista de estatus para seleccionar
-  const personalSelectItems = [];
-  personal.map((registro) =>{
-    personalSelectItems.push({label: (registro.nombre +' '+registro.apellido), value: registro.id})
-  })
-    
+
    //Lista de estatus para seleccionar
   const actividadSelectItems = [];
   actividades.map((registro) =>{
@@ -44,7 +29,6 @@ function Create({auth, hasRole, estatus, personal, actividades, periodos}) {
   periodos.map((registro) =>{
     periodoSelectItems.push({label: registro.descripcion, value: registro.id})
   })
-
 
   const activityOptionTemplate = (option) => {
     return (
@@ -63,7 +47,7 @@ function Create({auth, hasRole, estatus, personal, actividades, periodos}) {
       header={
         <h1 className="mb-8 text-3xl font-bold">
           <Link
-            href={route('solicitud.index')}
+            href={route('alumno.solicitudes')}
             className="text-indigo-600 hover:text-indigo-700"
           >
             Solicitudes
@@ -107,65 +91,10 @@ function Create({auth, hasRole, estatus, personal, actividades, periodos}) {
           />
           <InputError message={errors.periodo_id} className="mt-2" />
   
-  
-          <InputLabel forInput={data.responsable_id}>Responsable</InputLabel>
-          <Dropdown
-            value={data.responsable_id}
-            options={personalSelectItems}
-            onChange={(e) => setData("responsable_id", e.value)}
-            className="w-full"
-          />
-          <InputError message={errors.responsable_id} className="mt-2" />
-  
                  
-          <InputLabel forInput={data.no_control}>Alumno / No. Control</InputLabel>
-          <input
-            value={data.no_control}
-            onChange={(e) => setData("no_control", e.target.value)}
-            type="number"
-            autoFocus
-            className="mb-3 block w-full border-gray-300 rounded-lg"
-            name="no_control"
-          />
-          <InputError message={errors.no_control} className="mt-2" />
-  
-          <InputLabel forInput={data.valor}>Valor</InputLabel>
-          <input
-            value={data.valor}
-            onChange={(e) => setData("valor", e.target.value)}
-            type="number"  
-            autoFocus
-            className="mb-3 block w-full border-gray-300 rounded-lg"
-            name="no_control"
-          />
-          <InputError message={errors.valor} className="mt-2" />
-                 
-                  
-  
-          <InputLabel forInput={data.estatus_id}>Estatus</InputLabel>
-          <Dropdown 
-            value={data.estatus_id}
-            options={statusSelectItems}
-            onChange={(e) => setData("estatus_id", e.value)}
-            className="w-full"
-          />
-          <InputError message={errors.estatus_id} className="mt-2" />
-  
-          <InputLabel forInput={data.calificacion}>Calificacion</InputLabel>
-          <input
-            value={data.calificacion}
-            onChange={(e) => setData("calificacion", e.target.value)}
-            type="text"
-            autoFocus
-            className="mb-3 block w-full border-gray-300 rounded-lg"
-            name="calificaion"
-          />
-          <InputError message={errors.calificacion} className="mt-2" />
-  
+        
               
-  
-  
-          <Link href={route('solicitud.index')} className="mt-4 font-semibold text-xs text-white bg-red-600 hover:bg-red-700 rounded-md mr-2 mb-2 p-2 uppercase">
+          <Link href={route('alumno.solicitudes',auth.user.id)} className="mt-4 font-semibold text-xs text-white bg-red-600 hover:bg-red-700 rounded-md mr-2 mb-2 p-2 uppercase">
             Cancelar
           </Link>
           <PrimaryButton

@@ -4,18 +4,16 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Link } from '@inertiajs/inertia-react';
 import InputLabel from '@/Components/InputLabel';
+import { InputText } from 'primereact/inputtext';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function DepartamentoEdit({auth, can,solicitud, estatus, personal, actividades, periodos}) {
+function DepartamentoEdit({auth, hasRole,solicitud, estatus, actividades, periodos}) {
    const { data, setData, patch, proccesing, reset, errors } = useForm({
       actividad_id: solicitud.actividad_id,
       periodo_id: solicitud.periodo_id,
-      alumno: solicitud.alumno,
-      no_control: solicitud.no_control,
       estatus_id: solicitud.estatus_id,
-      responsable: solicitud.responsable,
-      calificacion: solicitud.calificacion,
+      calificacion: '',
       valor: solicitud.valor,
    });
 
@@ -29,31 +27,27 @@ function DepartamentoEdit({auth, can,solicitud, estatus, personal, actividades, 
     estatus.map((registro) =>{
       statusSelectItems.push({label: registro.descripcion, value: registro.id})
    })
-   //Lista de estatus para seleccionar
-   const personalSelectItems = [];
-    personal.map((registro) =>{
-      personalSelectItems.push({label: (registro.nombre +' '+registro.apellido), value: registro.id})
-    })
+   
     
    //Lista de estatus para seleccionar
-    const actividadSelectItems = [];
-    actividades.map((registro) =>{
-      actividadSelectItems.push({label: registro.descripcion, value: registro.id})
-    })
-    const periodoSelectItems = [];
-    periodos.map((registro) =>{
+   const actividadSelectItems = [];
+   actividades.map((registro) =>{
+   actividadSelectItems.push({label: registro.descripcion, value: registro.id})
+   })
+   const periodoSelectItems = [];
+   periodos.map((registro) =>{
       periodoSelectItems.push({label: registro.descripcion, value: registro.id})
-    })
+   })
 
 
    return (
       <TestLayout 
         auth={auth} 
-        can={can}
+        hasRole={hasRole}
         header={
             <h1 className="mb-8 text-3xl font-bold">
             <Link
-               href={route('solicitud.index')}
+               href={route('departamento.solicitudes')}
                className="text-indigo-600 hover:text-indigo-700"
             >
                Evaluar Solicitud
@@ -83,30 +77,23 @@ function DepartamentoEdit({auth, can,solicitud, estatus, personal, actividades, 
                   className="w-full"
                />
                <InputError message={errors.periodo_id} className="mt-2" />
-      
-    
-      
-               {/* <InputLabel forInput={data.responsable}>Responsable</InputLabel>
-               <Dropdown
-                  value={data.responsable}
-                  options={personalSelectItems}
-                  onChange={(e) => setData("responsable", e.value)}
-                  className="w-full"
+               
+            
+
+               <InputLabel>No. de Control</InputLabel>
+               <input 
+                  type="text" 
+                  value={solicitud.no_control} 
+                  className="mb-3 block w-full border-gray-300 rounded-lg text-indigo-600"disabled
                />
-               <InputError message={errors.responsable} className="mt-2" /> */}
-      
-                     
-               {/* <InputLabel forInput={data.no_control}>Alumno / No. Control</InputLabel>
-               <input
-                  value={data.no_control}
-                  onChange={(e) => setData("no_control", e.target.value)}
-                  type="number"
-                  autoFocus
-                  className="mb-3 block w-full border-gray-300 rounded-lg"
-                  name="no_control"
+               
+               <InputLabel>Responsable</InputLabel>
+               <input 
+                  type="text" 
+                  value={solicitud.responsable} 
+                  className="mb-3 block w-full border-gray-300 rounded-lg text-indigo-600"disabled
                />
-               <InputError message={errors.no_control} className="mt-2" /> */}
-      
+
                <InputLabel forInput={data.valor}>Valor</InputLabel>
                <input
                   value={data.valor}
@@ -118,8 +105,7 @@ function DepartamentoEdit({auth, can,solicitud, estatus, personal, actividades, 
                   name="no_control"
                />
                <InputError message={errors.valor} className="mt-2" />
-                     
-                        
+                
       
                <InputLabel forInput={data.estatus_id}>Estatus</InputLabel>
                <Dropdown 

@@ -11,7 +11,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function Index({ auth, can, solicitudes, departamento}) {
+function Index({ auth, hasRole, solicitudes, departamento}) {
    const [globalFilter, setGlobalFilter] = useState(null);
 
    const header = (
@@ -48,24 +48,13 @@ function Index({ auth, can, solicitudes, departamento}) {
       return (
          <React.Fragment>
             <Link href={route("solicitud.edit",rowData.id)} method="get" as="button"
-               /* className={can.solicitud_edit
+               /* className={hasRole.solicitud_edit
                   ? "flex"
                   : "hidden"
                } */
             >
                <span className=  "bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
                   <i className="pi pi-pencil"></i>
-               </span>
-            </Link>
-
-            <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button"
-               /* className={can.solicitud_destroy
-                  ? "flex"
-                  : "hidden"
-               } */
-            >
-               <span className="bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3">
-                  <i className="pi pi-trash"></i>
                </span>
             </Link>
          </React.Fragment>
@@ -77,7 +66,7 @@ function Index({ auth, can, solicitudes, departamento}) {
       <TestLayout
          auth={auth}
          header={<h1 className="mb-8 text-3xl font-bold">Solicitudes / {departamento}</h1>}
-         can ={can}
+         hasRole ={hasRole}
       >
          <Head title="Solicitudes" />
 

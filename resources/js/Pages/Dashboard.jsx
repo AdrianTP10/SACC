@@ -13,7 +13,7 @@ export default function Dashboard(props) {
                     Dashboard
                 </h2>
             }
-            can={props.can}
+            hasRole={props.hasRole}
         >
             <Head title="Dashboard" />
 

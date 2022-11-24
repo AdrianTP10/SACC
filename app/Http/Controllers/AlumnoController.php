@@ -40,6 +40,12 @@ class AlumnoController extends Controller
                     'estatus' => $alumno->estatus->descripcion,
                 ];
             }),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
             //'actividades' => Alumno::all('descripcion','valor_curricular','estatus_id')->toArray()
         ]);
     }
@@ -54,6 +60,12 @@ class AlumnoController extends Controller
         return Inertia::render('Alumno/Create', [
             'lista_estatus' => Estatus::all('id','descripcion'),
             'lista_carreras' => Carrera::all('id','nombre'),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
 
@@ -101,6 +113,12 @@ class AlumnoController extends Controller
             ],
             'lista_estatus' => Estatus::all('id','descripcion'),
             'lista_carreras' => Carrera::all('id','nombre'),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
 

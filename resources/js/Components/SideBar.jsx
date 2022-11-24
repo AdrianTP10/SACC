@@ -1,7 +1,7 @@
 import React from "react";
 import NavLink from "@/Components/NavLink";
 
-function SideBar({auth, can}) {
+function SideBar({auth, hasRole}) {
    return (
       <div className="hidden sm:flex flex-col items-center w-45 flex-shrink-0 overflow-y-auto text-gray-700 bg-gray-200">
          {/* <a className="flex items-center w-full px-3 mt-3" href="#">
@@ -47,7 +47,7 @@ function SideBar({auth, can}) {
                   href={route("personal.index")}
                   active={route().current("personal.index")}
                   className={
-                     can.personal_index
+                     hasRole.departamento
                         ? "flex"
                         : "hidden"
                   }
@@ -75,7 +75,35 @@ function SideBar({auth, can}) {
                   href={route("actividad.index")}
                   active={route().current("actividad.index")}
                   className={
-                     can.actividad_index
+                     hasRole.departamento
+                        ? "flex"
+                        : "hidden"
+                  }
+               >
+                  <svg
+                     className="w-6 h-6 stroke-current"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                     />
+                  </svg>
+                  <span className="ml-2 text-base font-medium">
+                     Actividades
+                  </span>
+               </NavLink>
+
+               <NavLink
+                  href={route("actividad.index")}
+                  active={route().current("actividad.index")}
+                  className={
+                     hasRole.alumno
                         ? "flex"
                         : "hidden"
                   }
@@ -104,7 +132,7 @@ function SideBar({auth, can}) {
                   href={route("departamento.solicitudes")}
                   active={route().current("departamento.solicitudes")}
                   className={
-                     can.solicitud_index
+                     hasRole.departamento
                         ? "flex"
                         : "hidden"
                   } 
@@ -132,7 +160,7 @@ function SideBar({auth, can}) {
                   href={route("alumno.index")}
                   active={route().current("alumno.index")}
                   className={
-                     can.alumno_index
+                     hasRole.escolares
                         ? "flex"
                         : "hidden"
                   }
@@ -160,7 +188,7 @@ function SideBar({auth, can}) {
                   href={route("departamento.index")}
                   active={route().current("departamento.index")}
                   className={
-                     can.departamento_index
+                     hasRole.escolares
                         ? "flex"
                         : "hidden"
                   } 
@@ -188,7 +216,7 @@ function SideBar({auth, can}) {
                   href={route("periodo.index")}
                   active={route().current("periodo.index")}
                   className={
-                     can.periodo_index
+                     hasRole.departamento
                         ? "flex"
                         : "hidden"
                   } 
@@ -216,7 +244,7 @@ function SideBar({auth, can}) {
                   href={route("alumno.solicitudes")}
                   active={route().current("alumno.solicitudes")}
                   className={
-                     can.solicitud_show
+                     hasRole.alumno
                         ? "flex"
                         : "hidden"
                   }
@@ -244,7 +272,7 @@ function SideBar({auth, can}) {
                   href={route("alumno.creditos")}
                   active={route().current("alumno.creditos")}
                   className={
-                     can.solicitud_show
+                     hasRole.alumno
                         ? "flex"
                         : "hidden"
                   }
@@ -274,7 +302,7 @@ function SideBar({auth, can}) {
                   href={route("usuario.index")}
                   active={route().current("usuario.index")}
                   className={
-                     can.periodo_index
+                     hasRole.admin
                         ? "flex"
                         : "hidden"
                   }

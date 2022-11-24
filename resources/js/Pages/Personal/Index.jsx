@@ -13,7 +13,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function Index({ auth,can,personal}) {
+function Index({ auth,hasRole,personal}) {
     
     const [globalFilter, setGlobalFilter] = useState(null);
 
@@ -63,7 +63,7 @@ function Index({ auth,can,personal}) {
     return (
         <TestLayout 
             auth={auth}
-            can={can}
+            hasRole={hasRole}
             header={
                 <h1 className="mb-8 text-3xl font-bold">
                     Personal

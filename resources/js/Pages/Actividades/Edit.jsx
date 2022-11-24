@@ -7,7 +7,7 @@ import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Edit({auth, can, actividad, estatus, departamentos}) {
+function Edit({auth, hasRole, actividad, estatus, departamentos}) {
    const { data, setData, patch, proccesing, reset, errors } = useForm({
       descripcion: actividad.descripcion,
       valor: actividad.valor,
@@ -34,7 +34,7 @@ function Edit({auth, can, actividad, estatus, departamentos}) {
      return (
         <TestLayout 
            auth={auth} 
-           can={can}
+           hasRole={hasRole}
            header={
               <h1 className="mb-8 text-3xl font-bold">
                  <Link

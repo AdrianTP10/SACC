@@ -34,6 +34,12 @@ class PeriodoController extends Controller
                     'estatus' => $periodo->estatus->descripcion
                 ];
             }),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
             'can' =>[
                 'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
                 'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
@@ -63,7 +69,13 @@ class PeriodoController extends Controller
                 'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
                 'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
                 'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
+            ],
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
 
@@ -109,7 +121,13 @@ class PeriodoController extends Controller
                 'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
                 'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
                 'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
+            ],
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
 
     }

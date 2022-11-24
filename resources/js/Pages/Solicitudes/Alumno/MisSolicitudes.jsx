@@ -11,8 +11,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function MisSolicitudes({ auth, solicitudes, can }) {
-   console.log(can)
+function MisSolicitudes({ auth, solicitudes, hasRole }) {
    const [globalFilter, setGlobalFilter] = useState(null);
 
    const header = (
@@ -71,7 +70,7 @@ function MisSolicitudes({ auth, solicitudes, can }) {
       <TestLayout
          auth={auth}
          header={<h1 className="mb-8 text-3xl font-bold">Mis Solicitudes</h1>}
-         can ={can}
+         hasRole ={hasRole}
       >
          <Head title="Solicitudes" />
 

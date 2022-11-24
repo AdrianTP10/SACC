@@ -22,7 +22,12 @@ class PersonalController extends Controller
             return Inertia::render('Personal/Index',[
                 'personal' => Personal::where('departamento_id',Auth::user()->perfil_personal->departamento_id)
                 ->select('id', 'nombre','apellido','rfc','departamento_id')->get(),
-        
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
                 'can' =>[
                     'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
                     'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
@@ -36,6 +41,12 @@ class PersonalController extends Controller
         }
         return Inertia::render('Personal/Index',[
             'personal' => Personal::all('id','nombre','apellido','rfc'),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
             'can' =>[
                 'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
                 'personal_edit' => Auth::user()->hasPermissionTo('personal.edit'),
@@ -53,6 +64,12 @@ class PersonalController extends Controller
     public function create()
     {
         return Inertia::render('Personal/Create',[
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
             'can' =>[
                 'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
                 'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
@@ -94,6 +111,7 @@ class PersonalController extends Controller
                 'apellido' => $dato->apellido,
                 'rfc' => $dato->rfc
             ],
+            
         ]);
     }
 

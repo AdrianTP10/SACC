@@ -6,7 +6,7 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
 
-export default function Authenticated({ auth, header, children, can }) {
+export default function Authenticated({ auth, header, children, hasRole }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     return (
         <div className="flex flex-col min-h-screen max-h-screen overflow-hidden">
@@ -167,7 +167,7 @@ export default function Authenticated({ auth, header, children, can }) {
                 {/* Menu lateral*/}
                 <SideBar
                     //permisos
-                    can={can}
+                    hasRole={hasRole}
                     auth={auth}
                 />
 

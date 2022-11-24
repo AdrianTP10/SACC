@@ -10,7 +10,7 @@ import { InputText } from 'primereact/inputtext';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css"; 
-function Index({auth,can, periodos}) {
+function Index({auth,hasRole, periodos}) {
     const [globalFilter, setGlobalFilter] = useState(null);
 
     const header = (
@@ -39,7 +39,7 @@ function Index({auth,can, periodos}) {
     const actionBodyTemplate = (rowData) => {
         return (
             <Link href={route("periodo.edit",rowData.id)} method="get" as="button"
-                /* className={can.solicitud_edit
+                /* className={hasRole.solicitud_edit
                     ? "flex"
                     : "hidden"
                 } */
@@ -56,7 +56,7 @@ function Index({auth,can, periodos}) {
    return (
       <TestLayout
             auth={auth}
-            can={can}
+            hasRole={hasRole}
             header={<h1 className="mb-8 text-3xl font-bold">Periodos</h1>}
   
         >

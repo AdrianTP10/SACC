@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/inertia-react';
 import InputLabel from '@/Components/InputLabel';
 import { useForm, Head } from "@inertiajs/inertia-react";
 
-function Create({ auth,can}) {
+function Create({ auth,hasRole}) {
     const { data, setData, post, proccesing, reset, errors } = useForm({
         nombre: "",
         apellido: "",
@@ -20,7 +20,7 @@ function Create({ auth,can}) {
     return (
         <TestLayout 
             auth={auth}
-            can={can}
+            hasRole={hasRole}
             header={
                 <h1 className="mb-8 text-3xl font-bold">
                    <Link

@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/inertia-react';
 import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
 import { useForm, Head } from "@inertiajs/inertia-react";
-function Create({auth, can, estatus}) {
+function Create({auth, hasRole, estatus}) {
     const { data, setData, post, proccesing, reset, errors } = useForm({
         descripcion: "",
         estatus_id: "",
@@ -25,7 +25,7 @@ function Create({auth, can, estatus}) {
     return (
         <TestLayout 
             auth={auth}
-            can={can}
+            hasRole={hasRole}
             header={
                 <h1 className="mb-8 text-3xl font-bold">
                    <Link

@@ -43,16 +43,12 @@ class SolicitudController extends Controller
                     'valor' => $solicitud->valor,
                 ];
             }),
-           
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
     public function indexDepartamento(){
@@ -63,21 +59,19 @@ class SolicitudController extends Controller
                         'id' => $solicitud->id,
                         'actividad' => $solicitud->actividad->descripcion,
                         'periodo' => $solicitud->periodo->descripcion,
-                        'alumno' => $solicitud->alumno->nombre . $solicitud->alumno->appelido,
+                        'alumno' => $solicitud->alumno->nombre.' '.$solicitud->alumno->apellido,
                         'alumno_ncontrol' => $solicitud->alumno->no_control,
+                        'valor' => $solicitud->valor,
                         'estatus' => $solicitud->estatus->descripcion,
                     ];
                 }),
                 'departamento' => Auth::user()->perfil_personal->departamento->nombre,
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_edit' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
             ]);
         }
     }
@@ -97,15 +91,12 @@ class SolicitudController extends Controller
                         'estatus' => $solicitud->estatus->descripcion, 
                     ];
                 }),
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
             ]);
         }
     }
@@ -127,15 +118,12 @@ class SolicitudController extends Controller
                         'estatus' => $solicitud->estatus->descripcion,
                     ];
                 }),
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
             ]);
         }
     }
@@ -161,50 +149,35 @@ class SolicitudController extends Controller
                     'valor' => $actividad->valor,
                    ];
                 }),
-    
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
-                
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],    
             ]);
         }
+
         if(Auth::user()->hasRole('departamento')){
-            return Inertia::render('Solicitudes/AdminCreate',[
-                'estatus' => EstatusSolicitud::all('id','descripcion'),
-                'personal' =>Auth::user()->perfil_personal->nombre,
+            return Inertia::render('Solicitudes/Departamento/Create',[
+                'responsable' =>Auth::user()->perfil_personal->nombre.' '.Auth::user()->perfil_personal->apellido,
                 'periodos' => Periodo::all('id', 'descripcion'),
-                'departamentos' => Departamento::all('id', 'nombre'),
-                'actividades' => Auth::user()->perfil_personal->departamento->actividades->map(function ($actividad) {
-                   return[
-                    'id' => $actividad->id,
-                    'descripcion' => $actividad->descripcion,
-                    'departamento' => $actividad->departamento->nombre,
-                    'valor' => $actividad->valor,
-                   ];
-                }),
-    
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_create' => Auth::user()->hasPermissionTo('solicitud.create'),
-                    'solicitud_edit' => Auth::user()->hasPermissionTo('solicitud.edit'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                
+                'estatus' => EstatusSolicitud::whereNotIn('descripcion', ['Acreditado'])->select('id','descripcion')->get(),
+                'actividades' => Auth::user()->perfil_personal->departamento->actividades,
+                'periodos' => Periodo::all('id', 'descripcion'),
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
             ]);
         }
 
 
         //Crear Solicitud Rol -> Alumno
-        return Inertia::render('Solicitudes/Create',[
+        return Inertia::render('Solicitudes/Alumno/Create',[
             'periodos' => Periodo::all('id', 'descripcion'),
             'actividades' => Actividad::all()->map(function ($actividad){
                return[
@@ -214,17 +187,12 @@ class SolicitudController extends Controller
                 'valor' => $actividad->valor,
                ];
             }),
-
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
-            
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],      
         ]);
     }
 
@@ -236,6 +204,30 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->hasRole('departamento')){
+            $request->validate([
+                'actividad_id' => 'exists:actividades,id| required',
+                'periodo_id' => 'exists:periodos,id| required',
+                'no_control' => 'exists:alumnos,no_control| required', 
+                'estatus_id' => 'exists:estatus_solicitud,id| required',
+                'calificacion' => 'required|integer|numeric|min:0|max:100',
+                'valor' => Rule::in([0.5,1.0,2.0]),
+            ]);
+            $alumno = Alumno::where('no_control', '=',  $request->no_control)->firstOrFail();  
+    
+            $solicitud = new Solicitud;
+            $solicitud->actividad_id = $request->actividad_id;
+            $solicitud->periodo_id = $request->periodo_id;
+            $solicitud->alumno_id = $alumno->id;
+            $solicitud->estatus_id = $request->estatus_id;
+            $solicitud->calificacion = $request->calificacion;
+            $solicitud->valor = $request->valor;
+
+            $solicitud->responsable_id = Auth::user()->perfil_personal->id;
+            $solicitud->save();
+    
+            return Redirect::route('departamento.solicitudes')->with('success', 'Solicitud Creada.');
+        }
         if(Auth::user()->hasRole('admin')){
             $request->validate([
                 'actividad_id' => 'exists:actividades,id| required',
@@ -304,27 +296,21 @@ class SolicitudController extends Controller
                     'actividad_id' => $solicitud->actividad->id,
                     'periodo_id' => $solicitud->periodo->id,
                     'departamento_id' => $solicitud->actividad->departamento->id,
-                    'alumno' => $solicitud->alumno->nombre .' '. $solicitud->alumno->apellido,
                     'no_control' => $solicitud->alumno->no_control,
                     'estatus_id' => $solicitud->estatus->id,
                     'responsable' => Auth::user()->perfil_personal->nombre .' '.Auth::user()->perfil_personal->apellido ,
-                    'calificacion' => $solicitud->calificacion,
                     'valor' => $solicitud->valor,
                 ],
-                'estatus' => EstatusSolicitud::all('id','descripcion'),
-                'personal' => Personal::all('id', 'nombre','apellido'),
-               
+                'estatus' => EstatusSolicitud::whereNotIn('descripcion', ['Acreditado'])->select('id','descripcion')->get(),
                 'actividades' => Auth::user()->perfil_personal->departamento->actividades,
                 'periodos' => Periodo::all('id', 'descripcion'),
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
+               
             ]);
         }
 
@@ -347,15 +333,12 @@ class SolicitudController extends Controller
             'actividades' => Actividad::all('id', 'descripcion'),
             //'actividades' => Auth::user()->perfil_personal->departamento->actividades,
             'periodos' => Periodo::all('id', 'descripcion'),
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
+            'hasRole' =>[
+                'admin' => Auth::user()>hasRole('admin'),
+                'departamento' => Auth::user()>hasRole('departamento'),
+                'alumno' => Auth::user()>hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
         ]);
     }
 
@@ -367,15 +350,35 @@ class SolicitudController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Solicitud $solicitud)
-    {
+    {   
+
+        if(Auth::user()->hasRole('departamento')){
+            $request->validate([
+                'actividad_id' => 'exists:actividades,id|required',
+                'periodo_id' => 'exists:periodos,id| required',
+                'estatus_id' => 'exists:estatus_solicitud,id|required',
+                'calificacion' => 'required|integer|numeric',
+                'valor' => Rule::in([0.5,1.0,2.0]),
+            ]);
+            $solicitud->actividad_id = $request->actividad_id;
+            $solicitud->periodo_id = $request->periodo_id;
+            $solicitud->estatus_id = $request->estatus_id;
+            $solicitud->calificacion = $request->calificacion;
+            $solicitud->valor = $request->valor; 
+
+            $solicitud->responsable_id = Auth::user()->perfil_personal->id;
+            $solicitud->save();
+
+            return Redirect::route('departamento.solicitudes'); 
+        }
         $alumno = Alumno::findOrFail($request->no_control);
         $validated = $request->validate([
-            'actividad_id' => 'exists:actividades,id | required',
-            'periodo_id' => 'exists:periodos,id | required',
-            'departamento_id' => 'exists:departamentos,id | required',
+            'actividad_id' => 'exists:actividades,id|required',
+            'periodo_id' => 'exists:periodos,id|required',
+            'departamento_id' => 'exists:departamentos,id|required',
             /* 'no_control', => $alumno->no_control, */
-            'estatus_id' => 'exists:estatus_solicitud,id | required',
-            'responsable_id' => 'exists:personal,id | required',
+            'estatus_id' => 'exists:estatus_solicitud,id |required',
+            'responsable_id' => 'exists:personal,id| required',
             'calificacion' => 'required|integer|numeric',
             'valor' => 'required|integer|numeric|min:0.5|max:2.0',
         ]);

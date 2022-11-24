@@ -11,7 +11,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function Index({ auth, actividades, can}) {
+function Index({ auth, actividades, hasRole}) {
    const [globalFilter, setGlobalFilter] = useState(null);
    const header = (
       <div className="table-header flex justify-between">
@@ -24,7 +24,7 @@ function Index({ auth, actividades, can}) {
             />
          </span>
 
-         {can.actividad_create 
+         {hasRole.admin
             ?  <Link
                   href={route("actividad.create")}
                   method={"get"}
@@ -63,7 +63,7 @@ function Index({ auth, actividades, can}) {
    return (
         <TestLayout 
             auth={auth}
-            can={can}
+            hasRole={hasRole}
             header={
                 <h1 className="mb-8 text-3xl font-bold">Actividades</h1>
             }
@@ -99,7 +99,7 @@ function Index({ auth, actividades, can}) {
                <Column field="departamento" header="Departamento" sortable style={{width:'30%'}}></Column>
                <Column field="valor_curricular" header="Valor" sortable style={{width:'5%'}}></Column>
                <Column field="estatus" header="Estatus" sortable style={{width:'5%'}}></Column>
-               <Column body={can.actividad_edit ? actionBodyTemplate : null} exportable={false} style={{width:'10%'}}></Column>    
+               <Column body={hasRole.admin ? actionBodyTemplate : null} exportable={false} style={{width:'10%'}}></Column>    
             </DataTable>
         </TestLayout>
     );
