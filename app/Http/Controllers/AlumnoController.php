@@ -5,6 +5,7 @@ use App\Models\Alumno;
 use App\Models\Carrera;
 use App\Models\Estatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 

@@ -11,7 +11,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function Index({ auth, can, solicitudes }) {
+function Index({ auth, hasRole, solicitudes }) {
    const [globalFilter, setGlobalFilter] = useState(null);
 
    const header = (
@@ -25,14 +25,18 @@ function Index({ auth, can, solicitudes }) {
             />
          </span>
 
-         <Link
-            href={route("solicitud.create")}
-            method={"get"}
-            as={"a"}
-            className=" items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150"
-         >
-            Crear Solicitud
-         </Link>
+         {hasRole.departamento 
+            ? <Link
+                  href={route("solicitud.create")}
+                  method={"get"}
+                  as={"a"}
+                  className=" items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150"
+               >
+                  Crear Solicitud
+               </Link>
+            : ""
+         }
+
       </div>
    );
 
@@ -70,7 +74,7 @@ function Index({ auth, can, solicitudes }) {
       return (
          <React.Fragment>
             <Link href={route("solicitud.edit",rowData.id)} method="get" as="button"
-               /* className={can.solicitud_edit
+               /* className={hasRole.solicitud_edit
                   ? "flex"
                   : "hidden"
                } */
@@ -81,7 +85,7 @@ function Index({ auth, can, solicitudes }) {
             </Link>
 
             <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button"
-               /* className={can.solicitud_destroy
+               /* className={hasRole.solicitud_destroy
                   ? "flex"
                   : "hidden"
                } */
@@ -99,7 +103,7 @@ function Index({ auth, can, solicitudes }) {
       <TestLayout
          auth={auth}
          header={<h1 className="mb-8 text-3xl font-bold">Solicitudes</h1>}
-         can ={can}
+         hasRole ={hasRole}
       >
          <Head title="Solicitudes" />
 

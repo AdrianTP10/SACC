@@ -30,16 +30,16 @@ class SolicitudController extends Controller
     public function index()
     {
         return Inertia::render('Solicitudes/Index',[
-            'solicitudes' => Solicitud::all()->map(function ($solicitud) {
+            'solicitudes' => Solicitud::where('estatus_id',2)->get()->map(function ($solicitud) {
                 return [
                     'id' => $solicitud->id,
                     'actividad' => $solicitud->actividad->descripcion,
                     'periodo' => $solicitud->periodo->descripcion,
-                    'departamento' => $solicitud->departamento->nombre,
+                    'departamento' => $solicitud->actividad->departamento->nombre,
                     'alumno' => $solicitud->alumno->nombre . $solicitud->alumno->appelido,
                     'alumno_ncontrol' => $solicitud->alumno->no_control,
                     'estatus' => $solicitud->estatus->descripcion,
-                    'responsable' => $solicitud->responsable->nombre . $solicitud->responsable->apellido,
+                    'responsable' => $solicitud->responsable->nombre .' '. $solicitud->responsable->apellido,
                     'valor' => $solicitud->valor,
                 ];
             }),

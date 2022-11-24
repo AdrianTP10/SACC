@@ -77,6 +77,7 @@ Route::get('/dashboard', function () {
             'admin' => Auth::user()->hasRole('admin'),
             'departamento' => Auth::user()->hasRole('departamento'),
             'alumno' => Auth::user()->hasRole('alumno'),
+            'escolares' => Auth::user()->hasRole('escolares'),
         ],
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
