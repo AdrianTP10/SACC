@@ -12,8 +12,9 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
 function Index({ auth, hasRole, solicitudes }) {
+   console.log(solicitudes)
    const [globalFilter, setGlobalFilter] = useState(null);
-
+   
    const header = (
       <div className="table-header flex justify-between">
          <span className="p-input-icon-left">

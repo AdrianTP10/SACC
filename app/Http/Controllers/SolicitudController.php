@@ -10,6 +10,7 @@ use App\Models\Departamento;
 use App\Models\EstatusSolicitud;
 use App\Models\Periodo;
 use App\Models\Personal;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
@@ -53,8 +54,40 @@ class SolicitudController extends Controller
     }
     public function indexDepartamento(){
         if(Auth::user()->hasRole('departamento')){
+
+            $solicitudes = Auth::user()->perfil_personal->departamento->solicitudes->where('estatus_id',1);
+            $prueba = DB::table('solicitudes')
+                    ->join('actividades', 'actividades.id', '=', 'solicitudes.actividad_id')
+                    ->select('solicitudes.*')->where('actividades.departamento_id',1)
+                    ->get();
+            var_dump($prueba);
             return Inertia::render('Solicitudes/Departamento/Index',[
-                'solicitudes' => Auth::user()->perfil_personal->departamento->solicitudes->map(function ($solicitud) {
+
+                //var_dump($solicitudes),
+                'solicitudes' => $solicitudes->map(function ($solicitud) {
+                    return [
+                        'id' => $solicitud->id,
+                        /* 'actividad' => $solicitud->actividad->descripcion,
+                        'periodo' => $solicitud->periodo->descripcion,
+                        'alumno' => $solicitud->alumno->nombre.' '.$solicitud->alumno->apellido,
+                        'alumno_ncontrol' => $solicitud->alumno->no_control,
+                        'valor' => $solicitud->valor,
+                        'estatus' => $solicitud->estatus->descripcion, */
+                    ];
+                }),
+                //'solicitudes' => Auth::user()->perfil_personal->departamento->solicitudes->where('estatus_id',1)->get()->map(function ($solicitud) {
+                    /* 'solicitudes' => DB::table('solicitudes')
+                    ->join('actividades', 'solicitudes.actividad_id', '=', 'actividades.id')
+                    ->select('solicitudes.*')->where('actividades.departamento_id',Auth::user()->perfil_personal->departamento->id)
+                    ->get(),->map(function ($solicitud) { */
+                    
+                        /* 'solicitudes'  => DB::table('solicitudes')
+                        ->join('actividades', function ($join) {
+                            $join->on('actividades.id', '=', 'solicitudes.actividad_id')
+                                ->where('actividades.departamento_id', '=', 1);
+                        })
+                        ->get(), *//* ->map(function ($solicitud) {  */
+                /* 'solicitudes' => Auth::user()->perfil_personal->departamento->solicitudes_nuevas->get()->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
                         'actividad' => $solicitud->actividad->descripcion,
@@ -64,7 +97,7 @@ class SolicitudController extends Controller
                         'valor' => $solicitud->valor,
                         'estatus' => $solicitud->estatus->descripcion,
                     ];
-                }),
+                }), */
                 'departamento' => Auth::user()->perfil_personal->departamento->nombre,
                 'hasRole' =>[
                     'admin' => Auth::user()->hasRole('admin'),
@@ -357,7 +390,7 @@ class SolicitudController extends Controller
                 'actividad_id' => 'exists:actividades,id|required',
                 'periodo_id' => 'exists:periodos,id| required',
                 'estatus_id' => 'exists:estatus_solicitud,id|required',
-                'calificacion' => 'required|integer|numeric',
+                'calificacion' => 'required|integer|numeric|min:0|max:100',
                 'valor' => Rule::in([0.5,1.0,2.0]),
             ]);
             $solicitud->actividad_id = $request->actividad_id;
@@ -379,8 +412,8 @@ class SolicitudController extends Controller
             /* 'no_control', => $alumno->no_control, */
             'estatus_id' => 'exists:estatus_solicitud,id |required',
             'responsable_id' => 'exists:personal,id| required',
-            'calificacion' => 'required|integer|numeric',
-            'valor' => 'required|integer|numeric|min:0.5|max:2.0',
+            'calificacion' => 'required|integer|numeric|min:0|max:100',
+            'valor' => Rule::in([0.5,1.0,2.0]),
         ]);
 
 
