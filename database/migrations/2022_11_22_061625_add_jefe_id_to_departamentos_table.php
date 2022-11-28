@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('departamentos', function (Blueprint $table) {
-            $table->foreignId('jefe_id')->references('id')->on('personal');
+            $table->foreignId('jefe_id')->nullable()->references('id')->on('personal');
         });
     }
 

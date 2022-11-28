@@ -26,13 +26,32 @@ class DepartamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return Inertia::render('Departamento/Index',[
+    {   
+        if(Auth::user()->hasRole('admin')){
+            return Inertia::render('Departamento/Index',[
+                'departamentos' => Departamento::all()->map(function ($departamento) {
+                    return [
+                        'id' => $departamento->id,
+                        'nombre' => $departamento->nombre,
+                        'jefe' => $departamento->jefe !=null ? $departamento->jefe->nombre .' '.$departamento->jefe->apellido : ""
+                    ];
+                }),
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
+    
+                //'actividades' => Solicitud::all('descripcion','valor_curricular','estatus_id')->toArray()
+            ]);
+        }
+        return Inertia::render('Departamento/Escolares/Index',[
             'departamentos' => Departamento::all()->map(function ($departamento) {
                 return [
                     'id' => $departamento->id,
                     'nombre' => $departamento->nombre,
-                    'jefe' => $departamento->jefe->nombre .' '.$departamento->jefe->apellido,
+                    'jefe' => $departamento->jefe !=null ? $departamento->jefe->nombre .' '.$departamento->jefe->apellido : ""
                 ];
             }),
             'hasRole' =>[
@@ -41,13 +60,6 @@ class DepartamentoController extends Controller
                 'alumno' => Auth::user()->hasRole('alumno'),
                 'escolares' => Auth::user()->hasRole('escolares'),
             ],
-            /* 'can' =>[
-                'solicitud_index' => Auth::user()->can('solicitud.index'),
-                'solicitud_edit' => Auth::user()->can('solicitud.edit'),
-                'solicitud_create' => Auth::user()->can('solicitud.create'),
-            ] */ 
-
-            //'actividades' => Solicitud::all('descripcion','valor_curricular','estatus_id')->toArray()
         ]);
     }
 
@@ -64,6 +76,12 @@ class DepartamentoController extends Controller
                 'admin' => Auth::user()->hasRole('admin'),
                 'departamento' => Auth::user()->hasRole('departamento'),
                 'alumno' => Auth::user()->hasRole('alumno'),
+            ],
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
             ],
         ]);
     }
@@ -99,7 +117,7 @@ class DepartamentoController extends Controller
             [
                 'id' => $departamento->id,
                 'nombre' => $departamento->nombre,
-                'jefe_id' => $departamento->jefe->id
+                'jefe_id' =>  $departamento->jefe !=null ? $departamento->jefe->id : ""
 
             ],
             'personal' => Personal::all('id', 'nombre','apellido'),

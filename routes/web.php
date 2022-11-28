@@ -1,9 +1,8 @@
 <?php
-
+use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\AlumnoController;
-use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\PeriodoController;
 use Illuminate\Foundation\Application;
@@ -39,11 +38,14 @@ Route::resource('actividad', ActividadController::class)
 ->middleware(['auth']);
 
 Route::resource('alumno', AlumnoController::class)
-->only(['index','store','update','create','edit','destroy'])
+->only(['index','store','update','create','edit','destroy','show'])
 ->middleware(['auth']);
 
 Route::resource('solicitud', SolicitudController::class)
-->only(['index','store','update','create','edit','destroy','show'])
+->only(['index','store','update','create','edit','destroy'])
+->middleware(['auth']);
+
+Route::get('/solicitudes-evaluadas', [SolicitudController::class,'solicitudesEvaluadas'])->name('escolares.solicitudes')
 ->middleware(['auth']);
 
 Route::get('/nuevas-solicitudes', [SolicitudController::class,'indexDepartamento'])->name('departamento.solicitudes')
@@ -53,6 +55,15 @@ Route::get('/mis-solicitudes', [SolicitudController::class,'indexAlumno'])->name
 ->middleware(['auth']);
 
 Route::get('/mis-creditos', [SolicitudController::class,'misCreditos'])->name('alumno.creditos')
+->middleware(['auth']);
+
+Route::get('/acreditar/{solicitud}', [SolicitudController::class,'updateStatus'])->name('solicitud.acreditar')
+->middleware(['auth']);
+
+Route::patch('/constancia/{solicitud}', [SolicitudController::class,'updateAndGenerate'])->name('solicitud.update.pdf')
+->middleware(['auth']);
+
+Route::post('/constancia', [SolicitudController::class,'storeAndGenerate'])->name('solicitud.store.pdf')
 ->middleware(['auth']);
 
 /* Route::get('/mis-creditos', [SolicitudController::class,'misCreditos'])->name('misSolicitudes')
@@ -66,9 +77,9 @@ Route::resource('departamento', DepartamentoController::class)
 ->only(['index','store','update','create','edit','destroy'])
 ->middleware(['auth']);
 
-Route::resource('usuario', UsuarioController::class)
+ Route::resource('usuario', UsuarioController::class)
 ->only(['index','store','update','create','edit','destroy'])
-->middleware(['auth']);
+->middleware(['auth']); 
 
 
 Route::get('/dashboard', function () {

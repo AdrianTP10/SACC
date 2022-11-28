@@ -26,6 +26,7 @@ class PersonalFactory extends Factory
             'nombre' => fake()->name(),
             'apellido' => fake()->lastName(),
             'rfc' => Str::random(13),
+            'departamento_id' => \App\Models\Departamento::all('id')->random()->id,
         ];
     }
 }

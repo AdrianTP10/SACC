@@ -10,8 +10,7 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { PrimeIcons } from 'primereact/api';
-import { Badge } from 'primereact/badge';
-import { Toolbar } from 'primereact/toolbar';
+
 
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
@@ -49,8 +48,8 @@ function Index({ auth,hasRole, alumnos}) {
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Link href={route("alumno.edit", rowData.id)} method='get' as='button' >
-                    {/* <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2"/> */}
+                {/* <Link href={route("alumno.edit", rowData.id)} method='get' as='button' >
+
                     <span className='bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3'>
                         
                         <i className="pi pi-pencil"></i>
@@ -59,9 +58,14 @@ function Index({ auth,hasRole, alumnos}) {
                 </Link>
                 
                 <Link href={route("alumno.destroy", rowData.id)} method='delete' as='button'>
-                    {/* <Button icon="pi pi-trash" className="p-button-rounded p-button-warning"/> */}
                     <span className='bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3'>
                         <i className="pi pi-trash"></i>
+                  
+                    </span>
+                </Link> */}
+                <Link href={route("alumno.show", rowData.id)} method='get' as='button'>
+                    <span className='bg-indigo-400 hover:bg-indigo-700 rounded-3xl p-2 m-3'>
+                        <i className="pi pi-eye"></i>
                   
                     </span>
                 </Link>

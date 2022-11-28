@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('rfc',13);
             $table->foreignId('user_id')->nullable()->references('id')->on('users')->nullOnDelete()->unique();
-            $table->foreignId('departamento_id')->nullable()->references('id')->on('departamentos')->nullOnDelete();
+            $table->foreignId('departamento_id')->references('id')->on('departamentos')->cascadeOnDelete();
             $table->timestamps();
         });
     }

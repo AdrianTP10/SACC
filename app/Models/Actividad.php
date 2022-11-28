@@ -29,6 +29,7 @@ class Actividad extends Model
     public function departamento(){
         return $this->belongsTo(Departamento::class, 'departamento_id');
     }
+    
 
     public function solicitudes(){
         return $this->hasMany(Solicitud::class);

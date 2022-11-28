@@ -35,10 +35,10 @@ class Departamento extends Model
     }
 
     public function solicitudes(){
-        return $this->hasManyThrough(Solicitud::class, Actividad::class);
+        return $this->hasMany(Solicitud::class);
     }
 
     public function solicitudes_nuevas(){
-        return $this->hasManyThrough(Solicitud::class, Actividad::class)->where('solicitudes.estatus_id',1);
+        return $this->hasMany(Solicitud::class)->where('estatus_id',1);
     }
 }

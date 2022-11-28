@@ -24,47 +24,9 @@ function Index({ auth,hasRole, departamentos, can }) {
                 placeholder="Buscar..."
                 />
             </span>
-
-            <Link
-                href={route("departamento.create")}
-                method={"get"}
-                as={"a"}
-                className=" items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150"
-            >
-                Añadir
-            </Link>
       </div>
     );
 
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <React.Fragment>
-                <Link href={route("departamento.edit",rowData.id)} method="get" as="button"
-                /* className={can.solicitud_edit
-                    ? "flex"
-                    : "hidden"
-                } */
-                >
-                <span className=  "bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
-                    <i className="pi pi-pencil"></i>
-                </span>
-                </Link>
-                
-                {hasRole.admin 
-                    ? <Link href={route("departamento.destroy", rowData.id)} method="delete" as="button">
-                            <span className="bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3">
-                                <i className="pi pi-trash"></i>
-                            </span>
-                        </Link>
-                    : ""
-                }
-                
-            </React.Fragment>
-        );
-    };
-
-   
    return (
       <TestLayout
             auth={auth}
@@ -80,9 +42,7 @@ function Index({ auth,hasRole, departamentos, can }) {
                 paginator rows={10} rowsPerPageOptions={[5, 10, 25]} paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             >
                 <Column field="nombre" header="Nombre" sortable ></Column>
-                <Column field="jefe" header="Jefe de Departamento" ></Column>
-                
-                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: "6rem" }}></Column>
+                <Column field="jefe" header="Jefe de Departamento" ></Column>  
             </DataTable>
       </TestLayout>
    );

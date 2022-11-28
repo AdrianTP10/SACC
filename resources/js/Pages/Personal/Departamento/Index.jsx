@@ -25,43 +25,9 @@ function Index({ auth,hasRole,personal}) {
                 
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
             </span>
-
-            {hasRole.admin
-                ?   <Link href={route('personal.create')} 
-                        method={'get'}
-                        as={'a'}
-                        className=' items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'
-                    >
-                        Crear
-                    </Link>
-                : ""
-            }
             
         </div>
     );
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <React.Fragment>
-                <Link href={route("personal.edit", rowData.id)} method='get' as='button' >
-                    {/* <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2"/> */}
-                    <span className='bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3'>
-                        
-                        <i className="pi pi-pencil"></i>
-                       
-                    </span>
-                </Link>
-                
-                <Link href={route("personal.destroy", rowData.id)} method='delete' as='button'>
-                    {/* <Button icon="pi pi-trash" className="p-button-rounded p-button-warning"/> */}
-                    <span className='bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3'>
-                        <i className="pi pi-trash"></i>
-                  
-                    </span>
-                </Link>
-            </React.Fragment>
-        );
-    }
 
     return (
         <TestLayout 
@@ -99,8 +65,6 @@ function Index({ auth,hasRole,personal}) {
                 <Column field="nombre" header="Nombre" sortable></Column>
                 <Column field="apellido" header="Apellido" sortable></Column>
                 <Column field="rfc" header="Rfc" style={{width:'10%'}}></Column>
-                <Column field="departamento" header="Departamento" sortable></Column>
-                <Column body={actionBodyTemplate} exportable={false} style={{width:'10%'}}></Column>
             </DataTable>
         </TestLayout>
     );

@@ -22,6 +22,7 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
+        "@react-pdf/renderer": "^3.0.1",
         "gridjs": "^5.1.0",
         "gridjs-react": "^5.0.2",
         "primeicons": "^6.0.1",

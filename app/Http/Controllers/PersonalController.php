@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Personal;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class PersonalController extends Controller
     {   
         //Retorna la vista para El personal de un departamento
         if(Auth::user()->hasRole('departamento')){
-            return Inertia::render('Personal/Index',[
+            return Inertia::render('Personal/Departamento/Index',[
                 'personal' => Personal::where('departamento_id',Auth::user()->perfil_personal->departamento_id)
                 ->select('id', 'nombre','apellido','rfc','departamento_id')->get(),
                 'hasRole' =>[
@@ -28,35 +29,24 @@ class PersonalController extends Controller
                     'alumno' => Auth::user()->hasRole('alumno'),
                     'escolares' => Auth::user()->hasRole('escolares'),
                 ],
-                'can' =>[
-                    'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                    'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                    'solicitud_show' => Auth::user()->hasPermissionTo('solicitud.show'),
-                    'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                    'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                    'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                    'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-                ]
            ]);
         }
         return Inertia::render('Personal/Index',[
-            'personal' => Personal::all('id','nombre','apellido','rfc'),
+            'personal' => Personal::all('id','nombre','apellido','rfc','departamento_id')->map(function ($personal){
+                return[
+                 'id' => $personal->id,
+                 'nombre' => $personal->nombre,
+                 'apellido' => $personal->apellido,
+                 'rfc' => $personal->rfc,
+                 'departamento' => $personal->departamento->nombre,
+                ];
+             }),
             'hasRole' =>[
                 'admin' => Auth::user()->hasRole('admin'),
                 'departamento' => Auth::user()->hasRole('departamento'),
                 'alumno' => Auth::user()->hasRole('alumno'),
                 'escolares' => Auth::user()->hasRole('escolares'),
             ],
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'personal_edit' => Auth::user()->hasPermissionTo('personal.edit'),
-                'personal_create' => Auth::user()->hasPermissionTo('personal.create'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
        ]);
 
     }
@@ -70,14 +60,6 @@ class PersonalController extends Controller
                 'alumno' => Auth::user()->hasRole('alumno'),
                 'escolares' => Auth::user()->hasRole('escolares'),
             ],
-            'can' =>[
-                'personal_index' => Auth::user()->hasPermissionTo('personal.index'),
-                'solicitud_index' => Auth::user()->hasPermissionTo('solicitud.index'),
-                'actividad_index' => Auth::user()->hasPermissionTo('actividad.index'),
-                'alumno_index' => Auth::user()->hasPermissionTo('alumno.index'),
-                'periodo_index' => Auth::user()->hasPermissionTo('periodo.index'),
-                'departamento_index' => Auth::user()->hasPermissionTo('departamento.index'),
-            ]
         ]);
     }
    
@@ -110,6 +92,12 @@ class PersonalController extends Controller
                 'nombre' => $dato->nombre,
                 'apellido' => $dato->apellido,
                 'rfc' => $dato->rfc
+            ],
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
             ],
             
         ]);

@@ -5,7 +5,9 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { Link } from '@inertiajs/inertia-react';
 import InputLabel from '@/Components/InputLabel';
 import { Dropdown } from "primereact/dropdown";
+import { InputSwitch } from 'primereact/inputswitch';
 import { useForm, Head } from "@inertiajs/inertia-react";
+import { useState } from 'react';
 
 function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
   const { data, setData, post, proccesing, reset, errors } = useForm({
@@ -17,11 +19,20 @@ function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
     valor: '',
   });
   
+
   const submit = (e) => {
     e.preventDefault();
-    post(route("solicitud.store"), { onSucces: () => reset() });
+   
+    
+    if(statusActive){
+      post(route("solicitud.store.pdf"), { onSucces: () => reset() });
+    }else{
+      post(route("solicitud.store"), { onSucces: () => reset() });
+    }
+    
   };
-  
+
+ 
   //Lista de estatus para seleccionar
   const statusSelectItems = [];
   estatus.map((registro) =>{
@@ -39,7 +50,16 @@ function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
     periodoSelectItems.push({label: registro.descripcion, value: registro.id})
   })
 
-
+  const [statusActive, setStatusActive] = useState(false);
+  const handleDropdownStatus= (e) =>{
+    setData("estatus_id", e.value)
+    if(e.value == 2){
+      setStatusActive(true)
+    }else{
+      setStatusActive(false)
+      /* setData("calificacion", '')  */
+    }
+  } 
   const activityOptionTemplate = (option) => {
     return (
       <div className="flex flex-col">
@@ -139,7 +159,8 @@ function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
           <Dropdown 
             value={data.estatus_id}
             options={statusSelectItems}
-            onChange={(e) => setData("estatus_id", e.value)}
+            /* onChange={(e) => setData("estatus_id", e.value)} */
+            onChange={handleDropdownStatus} 
             className="w-full"
           />
           <InputError message={errors.estatus_id} className="mt-2" />
@@ -152,6 +173,8 @@ function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
             autoFocus
             className="mb-3 block w-full border-gray-300 rounded-lg"
             name="calificaion"
+            disabled= {!statusActive}
+          
           />
           <InputError message={errors.calificacion} className="mt-2" />
   
@@ -167,6 +190,17 @@ function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
           >
               Registrar Solicitud
           </PrimaryButton>
+        
+          <PrimaryButton
+            className={statusActive 
+              ? "mt-4 font-semibold text-xs text-white bg-green-600 hover:bg-green-700 rounded-md mr-2 mb-2 p-2 uppercase"
+              : "hidden"
+            }
+              disabled={proccesing}
+          >
+              Registrar y generar constancia
+          </PrimaryButton>
+         
         </form>
       </div>
     </TestLayout>

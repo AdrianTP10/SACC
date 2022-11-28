@@ -32,11 +32,9 @@ class Solicitud extends Model
         return $this->belongsTo(Periodo::class, 'periodo_id');
     }
 
-    /* public function departamento(){
+    public function departamento(){
         return $this->belongsTo(Departamento::class, 'departamento_id');
-    } */
-
-
+    }
 
     public function responsable(){
         return $this->belongsTo(Personal::class, 'responsable_id');

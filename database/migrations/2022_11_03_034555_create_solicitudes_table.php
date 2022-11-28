@@ -18,11 +18,11 @@ return new class extends Migration
             $table->foreignId('alumno_id')->references('id')->on('alumnos');
             $table->foreignId('actividad_id')->references('id')->on('actividades');
             $table->foreignId('periodo_id')->references('id')->on('periodos');
-            //$table->foreignId('departamento_id')->references('id')->on('departamentos');
+            $table->foreignId('departamento_id')->references('id')->on('departamentos');
             $table->foreignId('responsable_id')->nullable()->references('id')->on('personal');
-            $table->foreignId('estatus_id')->references('id')->on('estatus_solicitud');
+            $table->foreignId('estatus_id')->references('id')->on('estatus_solicitud')->default('1');
             $table->float('valor', 2, 1);
-            $table->integer('calificacion');
+            $table->integer('calificacion')->default('0');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Alumno;
 use App\Models\Carrera;
 use App\Models\Estatus;
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -114,6 +115,35 @@ class AlumnoController extends Controller
             ],
             'lista_estatus' => Estatus::all('id','descripcion'),
             'lista_carreras' => Carrera::all('id','nombre'),
+            'hasRole' =>[
+                'admin' => Auth::user()->hasRole('admin'),
+                'departamento' => Auth::user()->hasRole('departamento'),
+                'alumno' => Auth::user()->hasRole('alumno'),
+                'escolares' => Auth::user()->hasRole('escolares'),
+            ],
+        ]);
+    }
+
+    public function show(Alumno $alumno){
+        return Inertia::render('Alumno/VerSolicitudes',[
+            'solicitudes' =>  Solicitud::where('alumno_id', '=', $alumno->id)->where('estatus_id',3)->get()->map(function ($solicitud) {
+                return [
+                    'id' => $solicitud->id,
+                    'actividad' => $solicitud->actividad->descripcion,
+                   /*  'alumno' => $solicitud->alumno->nombre .' '.$solicitud->alumno->apellido,
+                    'alumno_ncontrol' => $solicitud->alumno->no_control, */
+                    'periodo' => $solicitud->periodo->descripcion,
+                    'departamento' => $solicitud->actividad->departamento->nombre,
+                    'calificacion' => $solicitud->calificacion,
+                    'valor' => $solicitud->valor,
+                    'estatus' => $solicitud->estatus->descripcion,
+                    'responsable' => $solicitud->responsable->nombre.' '.$solicitud->responsable->apellido,
+                ];
+            }),
+            'alumno' =>[
+                'nombre' => $alumno->nombre . " ". $alumno->apellido,
+                'no_control' => $alumno->no_control,
+            ],
             'hasRole' =>[
                 'admin' => Auth::user()->hasRole('admin'),
                 'departamento' => Auth::user()->hasRole('departamento'),
