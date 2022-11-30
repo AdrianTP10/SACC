@@ -11,7 +11,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 
-function SolicitudesNuevas({ auth, hasRole, solicitudes, departamento}) {
+function Index({ auth, hasRole, solicitudes, responsable}) {
    const [globalFilter, setGlobalFilter] = useState(null);
 
    const header = (
@@ -24,22 +24,13 @@ function SolicitudesNuevas({ auth, hasRole, solicitudes, departamento}) {
                placeholder="Buscar..."
             />
          </span>
-
-         <Link
-            href={route("solicitud.create")}
-            method={"get"}
-            as={"a"}
-            className=" items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150"
-         >
-            Crear Solicitud
-         </Link>
       </div>
    );
 
    const statusBodyTemplate = (rowData) => {
         return (
-            <span className=" bg-gray-200 rounded-md p-1 text-center text-gray-800 font-mono ">
-            {rowData.estatus}
+            <span className=" bg-blue-200 rounded-md p-1 text-center text-blue-800 font-mono ">
+                  {rowData.estatus}
             </span>
         );
    };
@@ -47,22 +38,16 @@ function SolicitudesNuevas({ auth, hasRole, solicitudes, departamento}) {
    const actionBodyTemplate = (rowData) => {
       return (
          <React.Fragment>
-            <Link href={route("solicitud.edit",rowData.id)} method="get" as="button"
+            <a href={route("generar.pdf",rowData.id)} method="get" as="button"  target="_blank"
                /* className={hasRole.solicitud_edit
                   ? "flex"
                   : "hidden"
                } */
             >
                <span className=  "bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
-                  <i className="pi pi-pencil"></i>
+                  <i className="pi pi-file-pdf"></i>
                </span>
-            </Link>
-            <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button"
-            >
-               <span className="bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3">
-                  <i className="pi pi-trash"></i>
-               </span>
-            </Link>
+            </a>
          </React.Fragment>
       );
    };
@@ -71,7 +56,7 @@ function SolicitudesNuevas({ auth, hasRole, solicitudes, departamento}) {
    return (
       <TestLayout
          auth={auth}
-         header={<h1 className="mb-8 text-3xl font-bold">Solicitudes / {departamento}</h1>}
+         header={<h1 className="mb-8 text-3xl font-bold">Solicitudes Evaluadas/ {responsable}</h1>}
          hasRole ={hasRole}
       >
          <Head title="Solicitudes" />
@@ -93,4 +78,4 @@ function SolicitudesNuevas({ auth, hasRole, solicitudes, departamento}) {
    );
 }
 
-export default SolicitudesNuevas;
+export default Index;

@@ -48,7 +48,7 @@ Route::resource('solicitud', SolicitudController::class)
 Route::get('/solicitudes-evaluadas', [SolicitudController::class,'solicitudesEvaluadas'])->name('escolares.solicitudes')
 ->middleware(['auth']);
 
-Route::get('/nuevas-solicitudes', [SolicitudController::class,'indexDepartamento'])->name('departamento.solicitudes')
+Route::get('/nuevas-solicitudes', [SolicitudController::class,'nuevasSolicitudes'])->name('departamento.solicitudes')
 ->middleware(['auth']);
 
 Route::get('/mis-solicitudes', [SolicitudController::class,'indexAlumno'])->name('alumno.solicitudes')
@@ -60,7 +60,7 @@ Route::get('/mis-creditos', [SolicitudController::class,'misCreditos'])->name('a
 Route::get('/acreditar/{solicitud}', [SolicitudController::class,'updateStatus'])->name('solicitud.acreditar')
 ->middleware(['auth']);
 
-Route::patch('/constancia/{solicitud}', [SolicitudController::class,'updateAndGenerate'])->name('solicitud.update.pdf')
+Route::get('/constancia/{solicitud}', [SolicitudController::class,'generarConstancia'])->name('generar.pdf')
 ->middleware(['auth']);
 
 Route::post('/constancia', [SolicitudController::class,'storeAndGenerate'])->name('solicitud.store.pdf')

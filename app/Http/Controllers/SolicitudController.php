@@ -53,7 +53,30 @@ class SolicitudController extends Controller
                     'escolares' => Auth::user()->hasRole('escolares'),
                 ],
             ]);
+        }
 
+        if(Auth::user()->hasRole('departamento')){
+            return Inertia::render('Solicitudes/Departamento/Index',[
+               'solicitudes' => Solicitud::where('responsable_id',Auth::user()->perfil_personal->id)
+               ->where('estatus_id',2)->orderBy('updated_at', 'desc')->get()->map(function ($solicitud) {
+                    return [
+                        'id' => $solicitud->id,
+                        'actividad' => $solicitud->actividad->descripcion,
+                        'periodo' => $solicitud->periodo->descripcion,
+                        'alumno' => $solicitud->alumno->nombre.' '.$solicitud->alumno->apellido,
+                        'alumno_ncontrol' => $solicitud->alumno->no_control,
+                        'valor' => $solicitud->valor,
+                        'estatus' => $solicitud->estatus->descripcion,
+                    ];
+                }), 
+                'responsable' => Auth::user()->perfil_personal->nombre.' '.Auth::user()->perfil_personal->apellido,
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
+            ]);
         }
         return Inertia::render('Solicitudes/Index',[
             'solicitudes' => Solicitud::where('estatus_id',2)->get()->map(function ($solicitud) {
@@ -78,6 +101,7 @@ class SolicitudController extends Controller
         ]);
     }
 
+    //Vista Rol => Escolares
     public function solicitudesEvaluadas(){
         return Inertia::render('Solicitudes/Escolares/SolicitudesEvaluadas',[
             'solicitudes' => Solicitud::where('estatus_id',2)->get()->map(function ($solicitud) {
@@ -101,7 +125,9 @@ class SolicitudController extends Controller
             ],
         ]);
     }
-    public function indexDepartamento(){
+
+     //Vista Rol => Departamento
+    public function nuevasSolicitudes(){
         if(Auth::user()->hasRole('departamento')){
             return Inertia::render('Solicitudes/Departamento/SolicitudesNuevas',[
                'solicitudes' => Auth::user()->perfil_personal->departamento->solicitudes_nuevas->map(function ($solicitud) {
@@ -126,12 +152,13 @@ class SolicitudController extends Controller
         }
     }
 
+    ////Vista Rol => Alumno (Mis Solicitudes)
     public function indexAlumno(){
         if(Auth::user()->hasRole('alumno')){
             //Muestra las solicitudes de un alumno
             return Inertia::render('Solicitudes/Alumno/MisSolicitudes',[
                 //'solicitudes' => Solicitud::where('alumno_id', Auth::user()->id)->get()->map(function ($solicitud) {
-                'solicitudes' => Solicitud::where('alumno_id',Auth::user()->perfil_alumno->id)->whereIn('estatus_id',[1,4])->get()->map(function ($solicitud) {
+                'solicitudes' => Solicitud::where('alumno_id',Auth::user()->perfil_alumno->id)->whereIn('estatus_id',[1,2,4])->get()->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
                         'actividad' => $solicitud->actividad->descripcion,
@@ -279,8 +306,11 @@ class SolicitudController extends Controller
             $solicitud->responsable_id = Auth::user()->perfil_personal->id;
             $solicitud->departamento_id = $actividad->departamento_id;
             $solicitud->save();
-    
+            if($solicitud->estatus_id == 2){
+                return Redirect::route('solicitud.index');
+            }
             return Redirect::route('departamento.solicitudes');
+           
         }
         if(Auth::user()->hasRole('admin')){
             $request->validate([
@@ -335,32 +365,12 @@ class SolicitudController extends Controller
        
     }
 
-    public function storeAndGenerate(Request $request){
+    public function generarConstancia(Solicitud $solicitud ){
         if(Auth::user()->hasRole('departamento')){
-            $request->validate([
-                'actividad_id' => 'exists:actividades,id| required',
-                'periodo_id' => 'exists:periodos,id| required',
-                'no_control' => 'exists:alumnos,no_control| required', 
-                'estatus_id' => 'exists:estatus_solicitud,id| required',
-                'calificacion' => 'integer|numeric|min:0|max:100',
-                'valor' => Rule::in([0.5,1.0,2.0]),
-            ]);
-            $alumno = Alumno::where('no_control', '=',  $request->no_control)->select('id')->firstOrFail(); 
-            $actividad = Actividad::where('id', '=',  $request->actividad_id)->select('departamento_id')->firstOrFail(); 
-    
-            /* $solicitud = new Solicitud;
-            $solicitud->actividad_id = $request->actividad_id;
-            $solicitud->periodo_id = $request->periodo_id;
-            $solicitud->alumno_id = $alumno->id;
-            $solicitud->estatus_id = $request->estatus_id;
-            $solicitud->calificacion = $request->calificacion;
-            $solicitud->valor = $request->valor;
-
-            $solicitud->responsable_id = Auth::user()->perfil_personal->id;
-            $solicitud->departamento_id = $actividad->departamento_id;
-            $solicitud->save(); */
+            /* $alumno = Alumno::where('no_control', '=',  $request->no_control)->select('id')->firstOrFail(); 
+            $actividad = Actividad::where('id', '=',  $request->actividad_id)->select('departamento_id')->firstOrFail();  */
             
-            /* $pdf = PDF::loadView('pdf',[
+            $pdf = PDF::loadView('pdf',[
                 'jefe' => $solicitud->departamento->jefe->nombre .' '. $solicitud->departamento->jefe->apellido,
                 'responsable' => $solicitud->responsable->nombre. ' '.$solicitud->responsable->apellido,
                 'alumno' =>[
@@ -373,13 +383,9 @@ class SolicitudController extends Controller
                     'valor' => $solicitud->actividad->valor,
                     'periodo' => $solicitud->periodo->descripcion,
                 ]
-            ]); */
-            //$pdf = PDF::loadView('pdf',compact('solicitud','alumno','actividad','tabulador','periodo','departamento','responsable','jefe'));
-            $pdf = PDF::loadView('pdf',compact('alumno'));
-            return $pdf->stream();
-            //$pdf->loadHTML('<h1>Test</h1>');
-            //return $pdf->stream(); 
-            /* return Redirect::route('departamento.solicitudes'); */
+            ]);
+            //$pdf = PDF::loadView('pdf',compact('alumno'));
+            return $pdf->stream("CONSTANCIA.pdf");
         }
     }
     /**
@@ -497,7 +503,10 @@ class SolicitudController extends Controller
             $solicitud->responsable_id = Auth::user()->perfil_personal->id;
             $solicitud->save();
 
-            return Redirect::route('departamento.solicitudes'); 
+            if($solicitud->estatus_id == 2){
+                return Redirect::route('solicitud.index');
+            }
+            return Redirect::route('departamento.solicitudes');
         }
 
         $alumno = Alumno::findOrFail($request->no_control);

@@ -15,21 +15,13 @@ function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
     periodo_id: '',
     no_control: '',
     estatus_id: '',
-    calificacion: '',
+    calificacion: 0,
     valor: '',
   });
   
-
   const submit = (e) => {
     e.preventDefault();
-   
-    
-    if(statusActive){
-      post(route("solicitud.store.pdf"), { onSucces: () => reset() });
-    }else{
-      post(route("solicitud.store"), { onSucces: () => reset() });
-    }
-    
+    let respon = post(route("solicitud.store"), { onSucces: () => reset() });
   };
 
  
@@ -189,16 +181,6 @@ function Create({auth, hasRole, estatus, responsable, actividades, periodos}) {
               disabled={proccesing}
           >
               Registrar Solicitud
-          </PrimaryButton>
-        
-          <PrimaryButton
-            className={statusActive 
-              ? "mt-4 font-semibold text-xs text-white bg-green-600 hover:bg-green-700 rounded-md mr-2 mb-2 p-2 uppercase"
-              : "hidden"
-            }
-              disabled={proccesing}
-          >
-              Registrar y generar constancia
           </PrimaryButton>
          
         </form>

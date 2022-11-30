@@ -40,8 +40,7 @@
     </style>
 </head>
 <body>
-    <h1>HOla</h1>
-    {{-- <div class="div">
+    <div class="div">
         <table>
             <tr>
               <th rowspan="3"  style="width: 100px"><img height="63px" width="113px" src="C:\wamp64\www\sacc_cb\public\vendor\crudbooster\assets\logotec.png"></th>
@@ -93,7 +92,7 @@
         </div>
         
         <br><p style="margin-top: 10%">c.c.p. Jefe(a) de Departamento correspondiente</p>
-    </div> --}}
+    </div>
       
 
 </body>
