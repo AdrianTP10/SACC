@@ -108,5 +108,7 @@ class RoleSeeder extends Seeder
         $role4->givePermissionTo('departamento.create');
         $role4->givePermissionTo('departamento.edit');
         $role4->givePermissionTo('departamento.destroy');
+
+        $role4 = Role::create(['name' => 'jefe']);
     }
 }

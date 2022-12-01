@@ -25,6 +25,17 @@ function Index({ auth,hasRole,personal}) {
                 
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
             </span>
+
+            {hasRole.jefe
+                ?   <Link href={route('personal.create')} 
+                        method={'get'}
+                        as={'a'}
+                        className=' items-center px-4 py-3  bg-gray-900   hover:bg-gray-700 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'
+                    >
+                        Registrar Personal
+                    </Link>
+                : ""
+            }
             
         </div>
     );

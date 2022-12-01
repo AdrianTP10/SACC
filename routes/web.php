@@ -89,6 +89,7 @@ Route::get('/dashboard', function () {
             'departamento' => Auth::user()->hasRole('departamento'),
             'alumno' => Auth::user()->hasRole('alumno'),
             'escolares' => Auth::user()->hasRole('escolares'),
+            'jefe' => Auth::user()->hasRole('jefe'),
         ],
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');

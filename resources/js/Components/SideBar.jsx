@@ -42,9 +42,6 @@ function SideBar({auth, hasRole}) {
                </NavLink>
 
                
-               
-               
-               
                <NavLink
                   href={route("actividad.index")}
                   active={route().current("actividad.index")}
@@ -357,6 +354,8 @@ function SideBar({auth, hasRole}) {
                      Periodos
                   </span>
                </NavLink>
+               
+
                <NavLink
                   href={route("departamento.index")}
                   active={route().current("departamento.index")}

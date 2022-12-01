@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $departamento->assignRole('departamento');
+        $departamento->assignRole('jefe');
 
         $admin = \App\Models\User::create([
             'name' => 'Administrador',

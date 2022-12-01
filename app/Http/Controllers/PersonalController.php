@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Personal;
 use App\Models\Departamento;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,7 @@ class PersonalController extends Controller
                     'departamento' => Auth::user()->hasRole('departamento'),
                     'alumno' => Auth::user()->hasRole('alumno'),
                     'escolares' => Auth::user()->hasRole('escolares'),
+                    'jefe' => Auth::user()->hasRole('jefe'),
                 ],
            ]);
         }
@@ -46,6 +48,7 @@ class PersonalController extends Controller
                 'departamento' => Auth::user()->hasRole('departamento'),
                 'alumno' => Auth::user()->hasRole('alumno'),
                 'escolares' => Auth::user()->hasRole('escolares'),
+                'jefe' => Auth::user()->hasRole('jefe'),
             ],
        ]);
 
@@ -53,7 +56,18 @@ class PersonalController extends Controller
 
     public function create()
     {
-        return Inertia::render('Personal/Create',[
+        if(Auth::user()->hasRole('admin')){
+            return Inertia::render('Personal/Create',[
+                'hasRole' =>[
+                    'admin' => Auth::user()->hasRole('admin'),
+                    'departamento' => Auth::user()->hasRole('departamento'),
+                    'alumno' => Auth::user()->hasRole('alumno'),
+                    'escolares' => Auth::user()->hasRole('escolares'),
+                ],
+            ]);
+        }
+
+        return Inertia::render('Personal/Departamento/Create',[
             'hasRole' =>[
                 'admin' => Auth::user()->hasRole('admin'),
                 'departamento' => Auth::user()->hasRole('departamento'),
@@ -61,6 +75,7 @@ class PersonalController extends Controller
                 'escolares' => Auth::user()->hasRole('escolares'),
             ],
         ]);
+
     }
    
 
@@ -72,6 +87,36 @@ class PersonalController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->hasRole('jefe')){
+            $request->validate([
+                'nombre' => 'required|string|max:191',
+                'apellido' => 'required|string|max:191',
+                'rfc' => 'required|string|max:13',
+                'correo' => 'required|email'
+            ]);
+
+            //Se crea un nuevo usuario
+            $user = new User;
+            $user->name = $request->nombre;
+            $user->email = $request->correo;
+            $user->password =  bcrypt('password');
+            $user->assignRole('departamento');
+            $user->save();
+
+            //Se crea el perfil del empleado
+            $perfil = new Personal;
+            $perfil->nombre = $request->nombre;
+            $perfil->apellido = $request->apellido;
+            $perfil->rfc = $request->rfc;
+            //Se asigna el usuario al perfil
+            $perfil->user_id = $user->id;
+            $perfil->departamento_id = Auth::user()->perfil_personal->departamento_id;
+            $perfil->save();
+
+            return Redirect::route('personal.index');
+        }
+
+
         //validamos los datos
         $validated = $request->validate([
             'nombre' => 'required|string|max:191',
@@ -98,6 +143,7 @@ class PersonalController extends Controller
                 'departamento' => Auth::user()->hasRole('departamento'),
                 'alumno' => Auth::user()->hasRole('alumno'),
                 'escolares' => Auth::user()->hasRole('escolares'),
+                'jefe' => Auth::user()->hasRole('jefe'),
             ],
             
         ]);

@@ -471,7 +471,7 @@ class SolicitudController extends Controller
                 'admin' => Auth::user()>hasRole('admin'),
                 'departamento' => Auth::user()>hasRole('departamento'),
                 'alumno' => Auth::user()>hasRole('alumno'),
-                'escolares' => Auth::user()->hasRole('escolares'),
+                'escolares' => Auth::user()->hasRole('escolares')
             ],
         ]);
     }
