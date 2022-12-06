@@ -80,12 +80,12 @@ function Index({ auth, hasRole, solicitudes }) {
                </span>
             </Link>
 
-            <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button"
+           {/*  <Link href={route("solicitud.destroy", rowData.id)} method="delete" as="button"
             >
                <span className="bg-red-400 hover:bg-red-700 rounded-3xl p-2 m-3">
                   <i className="pi pi-trash"></i>
                </span>
-            </Link>
+            </Link> */}
          </React.Fragment>
       );
    };
@@ -105,7 +105,7 @@ function Index({ auth, hasRole, solicitudes }) {
             paginator rows={10} rowsPerPageOptions={[5, 10, 25]} paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
          >
             <Column field="actividad" header="Actividad" sortable></Column>
-            <Column field="alumno" header="Alumno"></Column>
+            <Column field="alumno" header="Alumno" sortable></Column>
             <Column field="alumno_ncontrol" header="No. Control"></Column>
             <Column field="valor" header="Valor" sortable></Column>
             <Column field="periodo" header="Periodo" sortable></Column>
@@ -114,7 +114,7 @@ function Index({ auth, hasRole, solicitudes }) {
             
             <Column field="estatus" header="Estatus" body={statusBodyTemplate} sortable></Column>
             
-            <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: "6rem" }}></Column>
+            {/* <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: "6rem" }}></Column> */}
          </DataTable>
       </TestLayout>
    );

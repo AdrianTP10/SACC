@@ -16,6 +16,7 @@ use Inertia\Inertia;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade\PDF;
+use App\Rules\MaxValue;
 
 class SolicitudController extends Controller
 {
@@ -58,6 +59,7 @@ class SolicitudController extends Controller
         if(Auth::user()->hasRole('departamento')){
             return Inertia::render('Solicitudes/Departamento/Index',[
                'solicitudes' => Solicitud::where('responsable_id',Auth::user()->perfil_personal->id)
+               ->where('departamento_id', Auth::user()->perfil_personal->departamento->id)
                ->where('estatus_id',2)->orderBy('updated_at', 'desc')->get()->map(function ($solicitud) {
                     return [
                         'id' => $solicitud->id,
@@ -244,7 +246,7 @@ class SolicitudController extends Controller
                 
                 'estatus' => EstatusSolicitud::whereNotIn('descripcion', ['Acreditado'])->select('id','descripcion')->get(),
                 'actividades' => Auth::user()->perfil_personal->departamento->actividades,
-                'periodos' => Periodo::all('id', 'descripcion'),
+                'periodos' => Periodo::where('estatus_id',1)->select('id', 'descripcion')->get(),
                 'hasRole' =>[
                     'admin' => Auth::user()->hasRole('admin'),
                     'departamento' => Auth::user()->hasRole('departamento'),
@@ -257,13 +259,16 @@ class SolicitudController extends Controller
 
         //Crear Solicitud Rol -> Alumno
         return Inertia::render('Solicitudes/Alumno/Create',[
-            'periodos' => Periodo::all('id', 'descripcion'),
+            'periodos' => Periodo::where('estatus_id',1)->select('id', 'descripcion')->get(),
             'actividades' => Actividad::all()->map(function ($actividad){
                return[
                 'id' => $actividad->id,
                 'descripcion' => $actividad->descripcion,
                 'departamento' => $actividad->departamento->nombre,
                 'valor' => $actividad->valor,
+                'suma' => Solicitud::where('actividad_id',$actividad->id)
+                            ->where('alumno_id',Auth::user()->perfil_alumno->id)
+                            ->where('estatus_id',3)->sum('valor')
                ];
             }),
             'hasRole' =>[
@@ -284,16 +289,21 @@ class SolicitudController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->hasRole('departamento')){
+            $alumno = Alumno::where('no_control', '=',  $request->no_control)->select('id')->firstOrFail(); 
+            $actividad = Actividad::where('id', '=',  $request->actividad_id)->select('id','departamento_id')->firstOrFail(); 
+            $count = Solicitud::where('alumno_id',$alumno->id)->where('actividad_id',$actividad->id)->whereIn('estatus_id',[2,3])->sum('valor');
+           
+          
             $request->validate([
                 'actividad_id' => 'exists:actividades,id| required',
                 'periodo_id' => 'exists:periodos,id| required',
                 'no_control' => 'exists:alumnos,no_control| required', 
                 'estatus_id' => 'exists:estatus_solicitud,id| required',
                 'calificacion' => 'integer|numeric|min:0|max:100',
-                'valor' => Rule::in([0.5,1.0,2.0]),
+                'valor' => [new MaxValue($count), Rule::in([0.5,1.0,2.0]),]
+                //'valor' => Rule::in([0.5,1.0,2.0]), new MaxValue(floatval($max))
             ]);
-            $alumno = Alumno::where('no_control', '=',  $request->no_control)->select('id')->firstOrFail(); 
-            $actividad = Actividad::where('id', '=',  $request->actividad_id)->select('departamento_id')->firstOrFail(); 
+           
     
             $solicitud = new Solicitud;
             $solicitud->actividad_id = $request->actividad_id;
@@ -552,8 +562,12 @@ class SolicitudController extends Controller
      */
     public function destroy(Solicitud $solicitud)
     {
+        if(Auth::user()->hasRole('departamento')){
+            $solicitud->delete();
+            return Redirect::route('departamento.solicitudes');
+        }
         $solicitud->delete();
-        return Redirect::route('solicitudes.index');
+        return Redirect::route('solicitud.index');
     }
 
 }

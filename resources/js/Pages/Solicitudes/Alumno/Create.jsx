@@ -35,7 +35,7 @@ function Create({auth, hasRole, actividades, periodos}) {
       <div className="flex flex-col">
         <h1>{option.descripcion}</h1>
         <h1 className='font-light px-2'>{option.departamento}</h1>
-        <h1 className='font-light px-2'>{option.valor}</h1>
+        <h1 className='font-light px-2'>Valor: {option.valor} | Mis Créditos: {option.suma}</h1>
       </div>
     );
 }

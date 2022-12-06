@@ -35,6 +35,13 @@ class DatabaseSeeder extends Seeder
         ]);
         $alumno->assignRole('alumno');
 
+        $alumno2 = \App\Models\User::create([
+            'name' => 'Emmanuel',
+            'email' => '19690062@tecvalles.mx',
+            'password' => bcrypt('password'),
+        ]);
+        $alumno2->assignRole('alumno');
+
         $escolares = \App\Models\User::create([
             'name' => 'Escolares',
             'email' => 'escolares@tecvalles.mx',

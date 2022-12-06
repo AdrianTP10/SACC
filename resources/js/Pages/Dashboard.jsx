@@ -9,7 +9,7 @@ export default function Dashboard(props) {
             auth={props.auth}
             errors={props.errors}
             header={
-                <h2 >
+                <h2  className="text-3xl font-bold">
                     Dashboard
                 </h2>
             }
@@ -20,11 +20,8 @@ export default function Dashboard(props) {
             <div>
                 
                 {/* <h1 className="mb-8 text-3xl font-bold">Dashboard</h1> */}
-                <p className="mb-8 leading-normal">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Commodi, esse optio est reprehenderit ex consequuntur.
-                    Voluptatum perferendis adipisci magnam vel, sed voluptates,
-                    sequi, corporis atque vero recusandae autem unde deserunt!
+                <p className="mb-8 leading-normal text-xl">
+                    Sistema de Administración de Creditos Complementarios
                     
                 </p>
             </div>

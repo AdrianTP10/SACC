@@ -57,7 +57,7 @@ function Index({ auth, hasRole, solicitudes }) {
             <Link href={route("solicitud.acreditar", rowData.id)} method="get" as="button"
             >
                <div className="flex text-white bg-indigo-600 hover:bg-indigo-700  rounded-lg p-3">
-                <h1 className="mr-2">Acreditar</h1>
+                <h1 className="mr-2 font-semibold">Acreditar</h1>
                 <i className="pi pi-pencil"></i>
                </div>
             </Link>

@@ -39,14 +39,14 @@ function Index({ auth, hasRole, solicitudes, responsable}) {
       return (
          <React.Fragment>
             <a href={route("generar.pdf",rowData.id)} method="get" as="button"  target="_blank"
-               /* className={hasRole.solicitud_edit
-                  ? "flex"
-                  : "hidden"
-               } */
-            >
-               <span className=  "bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3">
+              
+            >   
+               <div className=  "bg-green-400 hover:bg-green-600 rounded-3xl p-2 m-3 font-semibold">
                   <i className="pi pi-file-pdf"></i>
-               </span>
+                     Imprimir Constancia
+               </div>
+              
+               
             </a>
          </React.Fragment>
       );

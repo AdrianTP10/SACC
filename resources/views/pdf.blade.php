@@ -43,7 +43,7 @@
     <div class="div">
         <table>
             <tr>
-              <th rowspan="3"  style="width: 100px"><img height="63px" width="113px" src="C:\wamp64\www\sacc_cb\public\vendor\crudbooster\assets\logotec.png"></th>
+              <th rowspan="3"  style="width: 100px"><img height="63px" width="113px" src="C:\wamp64\www\proyectos\inertia-test\public\img\logotec.png"></th>
               <th style="width: 300px; height:20px;">FORMATO</th>
               <th style="width: 100px">Versión:</th>
               <th style="width: 100px">0</th>
@@ -76,10 +76,10 @@
         <p>Se extiende la presente en Ciudad Valles, San Luis Potosí.</p><br>
         
         <div class='div' style="align-items: center">
-            <img style="margin-left: 185px" height="150px" height="150px" src="C:\wamp64\www\sacc_cb\public\vendor\crudbooster\assets\sello.png" alt="sello_tec">
+            {{-- <img style="margin-left: 185px" height="150px" height="150px" src="C:\wamp64\www\sacc_cb\public\vendor\crudbooster\assets\sello.png" alt="sello_tec"> --}}
         </div>
 
-        <br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br>
         <div style="width: 100%; display:flex;">
             <div class="firma" style="float: left;">
                 <u>{{$responsable}}</u><br>
@@ -91,7 +91,7 @@
             </div>
         </div>
         
-        <br><p style="margin-top: 10%">c.c.p. Jefe(a) de Departamento correspondiente</p>
+        <br><br><p style="margin-top: 10%">c.c.p. Jefe(a) de Departamento correspondiente</p>
     </div>
       
 
